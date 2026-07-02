@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SE Exam Prep — HS Merseburg WS25/26</title>
+<style>
+/* ── RESET ─────────────────────────────────────────── */
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+
+/* ── CSS CUSTOM PROPERTIES (Light + Dark) ──────────── */
+:root{
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --text-primary:#111827;
+  --text-secondary:#374151;
+  --text-muted:#6B7280;
+  --text-accent:#1D4ED8;
+  --text-success:#166534;
+  --text-warning:#92400E;
+  --text-danger:#991B1B;
+  --surface-0:#F9FAFB;
+  --surface-1:#FFFFFF;
+  --surface-2:#F3F4F6;
+  --bg-accent:#EFF6FF;
+  --bg-success:#F0FDF4;
+  --bg-warning:#FFFBEB;
+  --bg-danger:#FEF2F2;
+  --border:#E5E7EB;
+  --border-accent:#93C5FD;
+  --border-success:#86EFAC;
+  --border-warning:#FCD34D;
+  --border-danger:#FCA5A5;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --text-primary:#F9FAFB;
+    --text-secondary:#D1D5DB;
+    --text-muted:#9CA3AF;
+    --text-accent:#60A5FA;
+    --text-success:#4ADE80;
+    --text-warning:#FCD34D;
+    --text-danger:#F87171;
+    --surface-0:#111827;
+    --surface-1:#1F2937;
+    --surface-2:#111827;
+    --bg-accent:#1E3A5F;
+    --bg-success:#14532D;
+    --bg-warning:#451A03;
+    --bg-danger:#450A0A;
+    --border:#374151;
+    --border-accent:#1D4ED8;
+    --border-success:#166534;
+    --border-warning:#92400E;
+    --border-danger:#991B1B;
+  }
+}
+
+/* ── BASE ───────────────────────────────────────────── */
+body{
+  font-family:var(--font-sans);
+  color:var(--text-primary);
+  background:var(--surface-0);
+  min-height:100vh;
+  padding:0;
+}
+
+/* ── WRAPPER ────────────────────────────────────────── */
+.app{max-width:860px;margin:0 auto;padding:12px 12px 40px}
+
+/* ── HEADER ─────────────────────────────────────────── */
+.app-header{padding:14px 0 10px;border-bottom:1px solid var(--border);margin-bottom:4px}
+.app-title{font-size:17px;font-weight:600;color:var(--text-primary)}
+.app-sub{font-size:12px;color:var(--text-muted);margin-top:3px}
+
+/* ── TABS ────────────────────────────────────────────── */
+.tabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  padding:10px 0 12px;
+  border-bottom:1px solid var(--border);
+}
+.tab{
+  padding:7px 14px;
+  font-size:12.5px;font-weight:500;
+  border:0.5px solid var(--border);
+  background:var(--surface-1);
+  color:var(--text-secondary);
+  cursor:pointer;
+  border-radius:20px;
+  white-space:nowrap;
+  -webkit-tap-highlight-color:transparent;
+  transition:background .12s,color .12s,border-color .12s;
+}
+.tab:hover{background:var(--surface-0)}
+.tab:active{opacity:.75}
+.tab.active{
+  color:var(--text-accent);
+  background:var(--bg-accent);
+  border-color:var(--border-accent);
+  font-weight:600;
+}
+
+/* ── PANELS ──────────────────────────────────────────── */
+.panel{display:none;padding:16px 0}
+.panel.active{display:block}
+
+/* ── HEADINGS ────────────────────────────────────────── */
+h2{font-size:16px;font-weight:600;margin:0 0 12px;color:var(--text-primary)}
+h3{font-size:13.5px;font-weight:600;margin:14px 0 6px;color:var(--text-primary)}
+
+/* ── DAY GRID ────────────────────────────────────────── */
+.day-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;margin-bottom:16px;
+}
+.day-card{
+  background:var(--surface-1);
+  border:0.5px solid var(--border);
+  border-radius:10px;padding:12px;
+}
+.day-label{
+  font-size:10px;font-weight:600;color:var(--text-accent);
+  text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;
+}
+.day-title{font-size:13px;font-weight:600;margin-bottom:8px;line-height:1.4}
+.day-block{
+  font-size:11.5px;color:var(--text-secondary);
+  padding:5px 0;border-bottom:0.5px solid var(--border);
+  line-height:1.5;
+}
+.day-block:last-child{border-bottom:none}
+.block-time{color:var(--text-muted);font-size:10.5px;font-weight:500}
+
+/* ── QA CARDS ────────────────────────────────────────── */
+.qa-card{
+  background:var(--surface-1);border:0.5px solid var(--border);
+  border-radius:8px;margin-bottom:8px;overflow:hidden;
+}
+.qa-q{
+  padding:11px 12px;cursor:pointer;font-size:13px;font-weight:500;
+  display:flex;justify-content:space-between;align-items:flex-start;gap:8px;
+  line-height:1.45;
+}
+.qa-q:hover,.qa-q:active{background:var(--surface-0)}
+.qa-icon{
+  color:var(--text-muted);font-size:18px;flex-shrink:0;
+  transition:transform .2s;margin-top:1px;line-height:1;
+}
+.qa-a{
+  display:none;padding:12px;font-size:12.5px;line-height:1.7;
+  color:var(--text-secondary);border-top:0.5px solid var(--border);
+  background:var(--surface-2);
+}
+.qa-a.open{display:block}
+.qa-icon.open{transform:rotate(45deg)}
+
+/* ── EXAM CARDS ─────────────────────────────────────── */
+.exam-q{
+  background:var(--surface-1);
+  border-left:3px solid var(--text-accent);
+  border-radius:0 8px 8px 0;
+  padding:12px;margin-bottom:10px;
+}
+.exam-pts{font-size:11px;color:var(--text-accent);font-weight:600}
+.exam-title{font-size:13px;font-weight:600;margin:3px 0 7px}
+.exam-ans{font-size:12.5px;color:var(--text-secondary);line-height:1.75}
+.exam-ans li{margin-left:16px;margin-bottom:2px}
+
+/* ── FLASHCARDS ─────────────────────────────────────── */
+.progress{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.pill{
+  padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;
+  cursor:pointer;border:0.5px solid var(--border);
+  color:var(--text-secondary);background:var(--surface-1);
+  -webkit-tap-highlight-color:transparent;
+}
+.pill.active{
+  background:var(--bg-accent);color:var(--text-accent);
+  border-color:var(--border-accent);
+}
+.flashcard{
+  background:var(--surface-1);border:0.5px solid var(--border);
+  border-radius:12px;padding:24px 20px;text-align:center;
+  min-height:180px;display:flex;flex-direction:column;
+  justify-content:center;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  transition:transform .1s;
+  user-select:none;
+}
+.flashcard:active{transform:scale(.98)}
+.fc-front{font-size:15px;font-weight:600;line-height:1.45}
+.fc-back{
+  display:none;font-size:13px;color:var(--text-secondary);
+  line-height:1.7;white-space:pre-line;text-align:left;
+}
+.fc-hint{font-size:11px;color:var(--text-muted);margin-top:10px}
+.fc-nav{display:flex;align-items:center;justify-content:space-between;margin-top:10px;gap:8px}
+.fc-btn{
+  flex:1;padding:10px 0;font-size:13px;font-weight:500;
+  border:0.5px solid var(--border);border-radius:8px;
+  background:var(--surface-1);color:var(--text-primary);
+  cursor:pointer;-webkit-tap-highlight-color:transparent;
+}
+.fc-btn:active{background:var(--surface-0)}
+.fc-counter{font-size:12px;color:var(--text-muted);white-space:nowrap}
+
+/* ── CODE INLINE ─────────────────────────────────────── */
+code{
+  background:var(--surface-2);border-radius:3px;
+  padding:1px 5px;font-family:monospace;font-size:11.5px;
+  border:0.5px solid var(--border);
+}
+
+/* ── ALERT BOX ───────────────────────────────────────── */
+.alert-warn{
+  background:var(--bg-warning);border:0.5px solid var(--border-warning);
+  border-radius:8px;padding:12px;font-size:12.5px;color:var(--text-warning);
+  line-height:1.6;
+}
+
+/* ── MISC ────────────────────────────────────────────── */
+.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:600;margin-right:4px}
+.badge-blue{background:var(--bg-accent);color:var(--text-accent)}
+.badge-green{background:var(--bg-success);color:var(--text-success)}
+.badge-red{background:var(--bg-danger);color:var(--text-danger)}
+.badge-warn{background:var(--bg-warning);color:var(--text-warning)}
+.search-bar{
+  width:100%;padding:9px 12px;font-size:13px;
+  border:0.5px solid var(--border);border-radius:6px;
+  background:var(--surface-1);color:var(--text-primary);
+  margin-bottom:10px;-webkit-appearance:none;
+}
+
+/* ── RESPONSIVE ──────────────────────────────────────── */
+@media(max-width:640px){
+  .app{padding:8px 10px 40px}
+  .day-grid{grid-template-columns:1fr}
+  .tab{padding:6px 12px;font-size:12px}
+  h2{font-size:15px}
+  .qa-q{font-size:12.5px;padding:10px 10px}
+  .qa-a{font-size:12px;padding:10px}
+  .exam-ans{font-size:12px}
+  .fc-front{font-size:14px}
+  .fc-back{font-size:12.5px}
+  .fc-btn{padding:12px 0;font-size:14px}
+  .flashcard{min-height:190px;padding:20px 14px}
+}
+@media(min-width:641px) and (max-width:900px){
+  .day-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="app-header">
+  <div class="app-title">🎓 SE Exam Prep — HS Merseburg WS25/26</div>
+  <div class="app-sub">Prof. Schönfeld &amp; Schumacher · 70 pts · 90 min · Written in English</div>
+</div>
+
+<div class="tabs" id="tabs">
+  <button class="tab active" onclick="switchTab('plan')">📅 3-Day Plan</button>
+  <button class="tab" onclick="switchTab('u02')">Ü2: SE Basics</button>
+  <button class="tab" onclick="switchTab('u03')">Ü3: Phase Models</button>
+  <button class="tab" onclick="switchTab('u04')">Ü4: Requirements</button>
+  <button class="tab" onclick="switchTab('u06')">Ü6: Architecture</button>
+  <button class="tab" onclick="switchTab('u07')">Ü7: UML</button>
+  <button class="tab" onclick="switchTab('u08')">Ü8: SOLID</button>
+  <button class="tab" onclick="switchTab('u09')">Ü9: Testing 1</button>
+  <button class="tab" onclick="switchTab('u10')">Ü10: Testing 2</button>
+  <button class="tab" onclick="switchTab('u11')">Ü11: Operations</button>
+  <button class="tab" onclick="switchTab('exam')">📝 Exam Answers</button>
+  <button class="tab" onclick="switchTab('flash')">🃏 Flashcards</button>
+</div>
+
+<!-- DAY PLAN -->
+<div class="panel active" id="panel-plan">
+  <h2>3-Day Exam Preparation Plan</h2>
+  <p style="font-size:13px;color:var(--text-secondary);margin-bottom:12px">Exam: written in English | 70 pts | 90 min | No tools allowed | 12 questions</p>
+  <div class="day-grid">
+    <div class="day-card">
+      <div class="day-label">Day 1 — Foundation</div>
+      <div class="day-title">SE Theory + Requirements + Phase Models</div>
+      <div class="day-block"><span class="block-time">Morning (2h)</span><br>Ü2: SE Basics — definitions, software characteristics, triangle of tension, 60/60 rule</div>
+      <div class="day-block"><span class="block-time">Midday (2h)</span><br>Ü3: Phase models — Waterfall, Scrum, Spiral, V-Model + OOP paradigms</div>
+      <div class="day-block"><span class="block-time">Afternoon (2h)</span><br>Ü4: Requirements — functional vs non-functional, stakeholders, RTM, Use Cases, RFC 2119</div>
+      <div class="day-block"><span class="block-time">Evening (1h)</span><br>Flashcard review: all Day 1 topics. Self-test with Probeklausur Q1, Q2</div>
+    </div>
+    <div class="day-card">
+      <div class="day-label">Day 2 — Architecture + UML + SOLID</div>
+      <div class="day-title">Design, Diagrams & Principles</div>
+      <div class="day-block"><span class="block-time">Morning (2h)</span><br>Ü6: C4 Model (Context/Container/Component/Code), Architecture patterns (Layered, Microservices, Pipes&Filters, Event-Driven, Hexagonal)</div>
+      <div class="day-block"><span class="block-time">Midday (2h)</span><br>Ü7: UML — Class, Component, Sequence, Activity, Use Case diagrams. Draw practice!</div>
+      <div class="day-block"><span class="block-time">Afternoon (2h)</span><br>Ü8: SOLID principles (all 5), Design Patterns (GoF: Creational/Structural/Behavioral), code → UML</div>
+      <div class="day-block"><span class="block-time">Evening (1h)</span><br>Practice drawing: Class diagram, Activity diagram, Sequence diagram from Probeklausur Q10, Q11, Q12</div>
+    </div>
+    <div class="day-card">
+      <div class="day-label">Day 3 — Testing + Operations + Mock Exam</div>
+      <div class="day-title">Quality, Testing & Full Practice</div>
+      <div class="day-block"><span class="block-time">Morning (2h)</span><br>Ü9+10: Test pyramid, V&V, White-box (CFG, Statement/Branch/Term coverage), Black-box (equivalence classes, boundary values), TDD</div>
+      <div class="day-block"><span class="block-time">Midday (1.5h)</span><br>Ü11: Software maintenance types (corrective/adaptive/perfective/preventive), SLA, MTTR, Eisberg model, Legacy systems</div>
+      <div class="day-block"><span class="block-time">Afternoon (1.5h)</span><br>Full mock exam — attempt all 12 Probeklausur questions under 90-min conditions</div>
+      <div class="day-block"><span class="block-time">Evening (1h)</span><br>Review weak areas from mock exam. Quick review all flashcards</div>
+    </div>
+  </div>
+  <div class="alert-warn">
+    <strong>⚠ Key exam focus areas (based on Probeklausur point weights):</strong> Class diagram errors (11 pts) • White-box testing/CFG (9 pts) • Class diagram drawing (9 pts) • Architecture styles (6 pts) • Artifacts (6 pts) • Multiple choice (10 pts)
+  </div>
+</div>
+
+<!-- UBUNG 02 -->
+<div class="panel" id="panel-u02">
+  <h2>Übung 2: SE Basics — Questions & Model Answers</h2>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q1: Give 3 examples each of application software and system software. Are they clearly assignable? <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>Application software:</strong> Microsoft Word (word processing), Google Chrome (web browser), Spotify (music streaming). These serve end-user tasks.<br><br>
+    <strong>System software:</strong> Windows 11 (operating system), Linux kernel, MySQL (database management system).<br><br>
+    <strong>Not always clearly assignable:</strong> A web browser can be argued as both — it's application software for users but acts as system software for web apps. Similarly, a database can be system software or part of an application. The boundary is blurry because modern software stacks are layered.
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q2: Describe 5 characteristics of software. How does it differ from hardware? <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>5 software characteristics:</strong><br>
+    1. <em>Intangibility</em> — software has no physical form; you cannot touch it<br>
+    2. <em>No wear-out</em> — software does not degrade with use (but requirements decay)<br>
+    3. <em>Complexity</em> — modern software systems are extremely complex<br>
+    4. <em>Maintainability</em> — software can be modified and extended after delivery<br>
+    5. <em>Reproducibility</em> — software can be copied perfectly at near-zero cost<br><br>
+    <strong>Hardware characteristics:</strong> Physical, wears out over time, manufacturing costs per unit, hardware failures are random events.<br><br>
+    <strong>Key difference:</strong> Hardware degrades physically over time; software "degrades" only if environment changes (OS updates, new requirements). Hardware has fixed unit cost; software has near-zero marginal cost per copy.
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q3: Is the Deutsche Bahn app a Software, Software Product, or Software System? <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>It is a Software System</strong> (and also a Software Product).<br><br>
+    <em>Software:</em> The code that runs the app.<br>
+    <em>Software Product:</em> The app delivered to users with documentation, support, packaging.<br>
+    <em>Software System:</em> The full ecosystem — app + backend servers + payment integration + real-time train data APIs + databases + external services.<br><br>
+    <strong>It is Application Software</strong> because it serves a specific end-user task (travel management). It requires System Software (Android/iOS, web servers, network stack) to function.
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q5: Difference between Software Engineering and Programming? <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>Programming</strong> is the act of writing code to solve a specific problem. It focuses on implementation details.<br><br>
+    <strong>Software Engineering</strong> is a systematic discipline that applies engineering principles to the entire software lifecycle — including requirements analysis, design, implementation, testing, deployment, and maintenance. It addresses large-scale, complex systems built by teams over time.<br><br>
+    Analogy: A programmer is like a bricklayer; a software engineer is like an architect — they plan the structure, coordinate teams, ensure quality, and manage the full construction process.
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q6 & Q7: What is the Triangle of Tension (Spannungsdreieck) in software development? <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>The Triangle of Tension</strong> (also called "Iron Triangle" or "Magic Triangle") represents three competing constraints in software projects:<br><br>
+    <strong>Corners: Scope / Quality / Time (Cost)</strong><br>
+    — <em>Scope:</em> Features and functionality to be delivered<br>
+    — <em>Time:</em> Schedule and resources (budget)<br>
+    — <em>Quality:</em> Reliability, correctness, performance<br><br>
+    <strong>Why "tension":</strong> You cannot optimize all three simultaneously. Changing one forces trade-offs in the others. Adding more features (scope) requires more time OR reduces quality. Cutting time forces scope reduction OR quality suffers.<br><br>
+    <strong>Example trade-off (Bahn-App):</strong> Prioritizing reliability (quality) → needs more testing time → reduces pace of new features (scope).
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q8: Two typical causes of software project failures? <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    1. <strong>Unclear or changing requirements</strong> — Projects fail when requirements are poorly defined, misunderstood, or change frequently without controlled management. Prevention: thorough requirements engineering, stakeholder workshops, change management process.<br><br>
+    2. <strong>Underestimated complexity / poor planning</strong> — Teams underestimate the effort, leading to schedule overruns and budget exhaustion. Prevention: iterative development (Agile), regular effort estimation reviews, risk management planning.
+  </div></div>
+</div>
+
+<!-- UBUNG 03 -->
+<div class="panel" id="panel-u03">
+  <h2>Übung 3: Phase Models & SDLC</h2>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q1: What are the key concepts of OOP? Difference between class and object? <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>4 core OOP concepts:</strong><br>
+    1. <em>Encapsulation</em> — hiding internal state, exposing only needed interfaces<br>
+    2. <em>Inheritance</em> — child classes reuse/extend parent class behavior<br>
+    3. <em>Polymorphism</em> — same method call behaves differently based on object type<br>
+    4. <em>Abstraction</em> — modeling only relevant aspects, hiding complexity<br><br>
+    <strong>Class vs. Object:</strong><br>
+    — A <em>class</em> is a blueprint/template (e.g., the concept of "Car")<br>
+    — An <em>object</em> is a concrete instance of that class (e.g., "my red Toyota").<br><br>
+    <strong>OOP vs. Procedural:</strong> Procedural code organizes logic as procedures/functions acting on data. OOP organizes data and behavior together in objects. OOP better models real-world entities.<br><br>
+    <strong>Logic-based paradigms</strong> (e.g., Prolog) are based on formal logic and rules — the programmer declares facts and rules; the system infers conclusions.
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q2: The 5 key phases of Software Engineering and their tasks? <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>1. Requirements Analysis</strong> — Elicit, document, and validate stakeholder needs; produce requirements specification; identify functional and non-functional requirements.<br>
+    <strong>2. Design (Architecture & Detailed Design)</strong> — Create system architecture, define components, design data models, create UML diagrams.<br>
+    <strong>3. Implementation (Coding)</strong> — Write source code, conduct code reviews, unit testing during development.<br>
+    <strong>4. Testing & Quality Assurance</strong> — Integration testing, system testing, acceptance testing, defect tracking and fixing.<br>
+    <strong>5. Deployment & Maintenance</strong> — Release to production, monitor, fix bugs, adapt to new requirements.<br><br>
+    <strong>Why phases blur in practice:</strong> Requirements evolve; design decisions emerge during coding; bugs found in testing require revisiting design. Real projects use iterative feedback loops.<br><br>
+    <strong>UML by phase:</strong> Requirements → Use Case diagrams | Design → Class, Component, Sequence diagrams | Implementation → Code + Class diagrams | Testing → Activity diagrams for test flows
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q4: Rigid vs. Agile models — differences, examples, comparison table? <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>Rigid (sequential) models:</strong> Phases are strictly sequential; each phase must complete before next begins; changes are expensive late in the process.<br>
+    Examples: <em>Waterfall Model</em>, <em>V-Model</em><br><br>
+    <strong>Agile models:</strong> Iterative, incremental delivery in short cycles (sprints); requirements can evolve; continuous customer feedback; working software delivered frequently.<br>
+    Examples: <em>Scrum</em>, <em>XP (Extreme Programming)</em><br><br>
+    <table style="width:100%;font-size:12px;border-collapse:collapse">
+      <tr style="background:var(--bg-accent);color:var(--text-accent)"><td style="padding:4px 6px">Aspect</td><td style="padding:4px 6px">Waterfall</td><td style="padding:4px 6px">Scrum</td></tr>
+      <tr style="border-top:0.5px solid var(--border)"><td style="padding:4px 6px">Flexibility</td><td style="padding:4px 6px">Low</td><td style="padding:4px 6px">High</td></tr>
+      <tr style="border-top:0.5px solid var(--border)"><td style="padding:4px 6px">Delivery</td><td style="padding:4px 6px">One final release</td><td style="padding:4px 6px">Incremental sprints</td></tr>
+      <tr style="border-top:0.5px solid var(--border)"><td style="padding:4px 6px">Customer involvement</td><td style="padding:4px 6px">Mainly at start/end</td><td style="padding:4px 6px">Continuous</td></tr>
+      <tr style="border-top:0.5px solid var(--border)"><td style="padding:4px 6px">Best for</td><td style="padding:4px 6px">Stable, clear requirements</td><td style="padding:4px 6px">Evolving, unclear requirements</td></tr>
+      <tr style="border-top:0.5px solid var(--border)"><td style="padding:4px 6px">Risk</td><td style="padding:4px 6px">High — late discovery of problems</td><td style="padding:4px 6px">Lower — fast feedback</td></tr>
+    </table>
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q5: Why choose Scrum for a study-group app startup? Waterfall risks? <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>Choose Scrum because:</strong><br>
+    1. Requirements are unclear at start → Scrum allows discovering them iteratively<br>
+    2. Dynamic market → Scrum's short sprints enable rapid adaptation<br>
+    3. Early user feedback → prevents building the wrong product<br><br>
+    <strong>Waterfall risks for this scenario:</strong><br>
+    — Requirements would be "frozen" but are actually unknown → massive rework<br>
+    — Months of development before any user sees the product → late discovery of misunderstandings<br>
+    — Changes are expensive → startup agility lost
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q6: Why is iterative development better than sequential for complex projects? <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    Iterative development allows teams to <em>learn continuously</em> and <em>adapt</em> throughout the project. Complex systems cannot be fully understood upfront — requirements evolve, technical challenges emerge, and user needs change. Each iteration delivers working software that reveals real feedback early. Sequential (waterfall) methods commit to a fixed plan that becomes outdated, making late changes extremely costly. Iterative approaches reduce risk by catching misunderstandings early, when corrections are cheap, rather than after months of wasted effort.
+  </div></div>
+</div>
+
+<!-- UBUNG 04 -->
+<div class="panel" id="panel-u04">
+  <h2>Übung 4: Stakeholder & Requirements Management</h2>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q1: Define Functional vs. Non-Functional Requirements + Stakeholder + Quality Criteria <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>Functional Requirement:</strong> Describes what the system shall do — specific behavior or function.<br>
+    Example (bike rental app): "The system shall allow users to reserve a bicycle by selecting a station and time slot."<br><br>
+    <strong>Non-Functional Requirement:</strong> Describes how the system performs — quality attributes, constraints.<br>
+    Example: "The reservation response time shall be under 2 seconds for 95% of requests."<br><br>
+    <strong>Stakeholder:</strong> Any person or organization that has an interest in the system or is affected by it. Examples: End users (want easy booking), Admin (want analytics), Developer (want clean API).<br><br>
+    <strong>4 Quality criteria for requirements:</strong><br>
+    1. <em>Complete</em> — all necessary information included<br>
+    2. <em>Unambiguous</em> — only one possible interpretation<br>
+    3. <em>Testable</em> — can be verified objectively<br>
+    4. <em>Consistent</em> — no contradiction with other requirements
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q3: How to improve poorly written requirements? <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>"The app shall be fast."</strong> → Non-functional, but vague.<br>
+    ✓ Better: "The app shall display search results within 1.5 seconds for 99% of requests under normal load (≤1000 concurrent users)."<br><br>
+    <strong>"Registration shall be simple."</strong> → Non-functional, vague.<br>
+    ✓ Better: "A new user shall be able to complete registration in ≤3 steps, requiring only email and password, with no more than 2 minutes elapsed."<br><br>
+    <strong>"It shall be possible to reserve bicycles."</strong> → Functional, but incomplete.<br>
+    ✓ Better: "A registered user shall be able to reserve an available bicycle at a selected station for a chosen date and time slot. The system shall confirm the reservation within 3 seconds and send an email confirmation."<br><br>
+    Test cases for reservation: (1) Valid reservation → confirmation shown + email sent; (2) Attempt to reserve already-booked slot → error message displayed
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q4: RFC 2119 prioritization (MUST/SHOULD/MAY) for bike rental app <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>MUST (mandatory):</strong> (a) User registration, (b) Bicycle reservation, (c) Credit card payment — these are core functionality without which the system fails to function.<br>
+    <strong>SHOULD (highly recommended):</strong> (e) Push notifications, (d) Offline map mode — important for UX but system works without them.<br>
+    <strong>MAY (optional):</strong> (g) Rating function, (h) Admin dashboard — nice-to-have features.<br>
+    <strong>MUST NOT:</strong> Security violations (e.g., storing plaintext passwords).<br><br>
+    <strong>Customer priority order (1=highest):</strong> (b) Reservation → (a) Registration → (c) Payment → (e) Push → (d) Offline → (f) GPS theft → (h) Dashboard → (g) Ratings
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q7: What is a Requirements Traceability Matrix (RTM)? Why important? <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    An RTM is a table that links each requirement to its design documents, code modules, and test cases. It ensures every requirement is implemented and tested, and makes the impact of changes visible.<br><br>
+    <strong>Typical RTM columns:</strong> Requirement ID | Description | Design Document | Code Module(s) | Test Case ID(s) | Test Status<br><br>
+    <strong>Benefits for testing:</strong> Ensures no requirement is untested; identifies which tests to re-run when a requirement changes; shows test coverage by requirement.<br><br>
+    <strong>Risks without RTM:</strong> Requirements may be forgotten (not implemented); test coverage gaps; impact analysis of changes is impossible or error-prone.<br><br>
+    <strong>If RQ-003 changes</strong> (add timestamp): RTM shows it affects DD-03 (design spec), TaskManager.java (code), and TC-03 (test case) — all must be updated.
+  </div></div>
+</div>
+
+<!-- UBUNG 06 -->
+<div class="panel" id="panel-u06">
+  <h2>Übung 6: Software Design & Architecture</h2>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q1 Multiple Choice Answers (Architecture basics) <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    1. Software architecture (IEEE): <strong>(b)</strong> — fundamental organization of a system embodied in components, relationships, and principles.<br>
+    2. Architecture vs. Design: <strong>(b)</strong> — Architecture is high-level (system-wide), Design is low-level (code-near).<br>
+    3. False statement about C4: <strong>(c)</strong> — C4 is NOT a formal language like UML; it is a lightweight modeling approach/notation.
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q2: Grobentwurf vs. Feinentwurf. What is High/Low Cohesion and Low Coupling? <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>Grobentwurf (Coarse-grained design / System Architecture):</strong><br>
+    — High-level view of the system; identifies major components and their interactions<br>
+    — Defines the overall architecture style, system boundaries, external interfaces<br>
+    — Typical artifacts: C4 Context/Container diagrams, Component diagrams<br><br>
+    <strong>Feinentwurf (Fine-grained design / System Design):</strong><br>
+    — Low-level details; class structures, method signatures, data types<br>
+    — How individual components are internally structured<br>
+    — Typical artifacts: UML Class diagrams, Sequence diagrams<br><br>
+    <strong>High Cohesion:</strong> All elements within a module/class work toward a single, well-defined purpose. A class should do one thing well.<br>
+    <strong>Low Coupling:</strong> Modules/classes should depend on each other as little as possible. Changes in one module should minimally affect others.<br>
+    <strong>Importance for Grobentwurf:</strong> High cohesion makes components understandable and maintainable. Low coupling enables independent development, testing, and replacement of components.
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q3: C4 Model — all 4 levels explained <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    The C4 model uses 4 levels of abstraction to describe a software system:<br><br>
+    <strong>Level 1 — Context (System Context Diagram):</strong> Shows the system in its environment — who uses it (persons/actors) and what external systems it interacts with. Audience: non-technical stakeholders.<br><br>
+    <strong>Level 2 — Container:</strong> Zooms into the system; shows the deployable units (web app, mobile app, API, database). Each container runs separately. Shows technologies used. Audience: developers and architects.<br><br>
+    <strong>Level 3 — Component:</strong> Zooms into a single container; shows the internal components/modules and their interactions. Audience: developers.<br><br>
+    <strong>Level 4 — Code:</strong> Zooms into a single component; shows classes/functions. Usually auto-generated from code. Audience: individual developers.
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q4: Architecture patterns — which for a fitness app? <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>Recommended: Microservices Architecture</strong><br>
+    Arguments: (1) Independent scaling of services (e.g., scale only the Workout service during peak usage); (2) Different teams own different services (Social, Training, Wearables); (3) Wearables integration can be a separate Adapter service, easily replaceable; (4) Offline functionality can be handled by a dedicated sync service.<br><br>
+    <strong>Alternative: Event-Driven Architecture</strong> — fits well for social sharing (events: WorkoutCompleted → notify friends) and wearable data streams.<br><br>
+    <strong>Architecture Patterns overview (exam critical):</strong><br>
+    — <em>Layered:</em> UI→Logic→Data; simple, good for small systems<br>
+    — <em>Microservices:</em> small independent services; scalable, complex ops<br>
+    — <em>Event-Driven:</em> components communicate via events; loose coupling<br>
+    — <em>Hexagonal (Ports & Adapters):</em> core logic isolated from I/O; testable<br>
+    — <em>Pipes & Filters:</em> data flows through transformation steps; good for streaming/data processing
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q5: What are Design Patterns? GoF 3 categories with examples? <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>Design Patterns</strong> are reusable solutions to commonly occurring problems in software design. They are not code to copy but templates describing how to solve a problem in a specific context. Introduced by the "Gang of Four" (GoF) book (Gamma, Helm, Johnson, Vlissides).<br><br>
+    <strong>3 GoF categories:</strong><br>
+    1. <em>Creational patterns</em> — how objects are created<br>
+    Example: <strong>Singleton</strong> (only one instance of a class), <strong>Factory Method</strong> (delegate object creation to subclasses)<br><br>
+    2. <em>Structural patterns</em> — how classes/objects are composed<br>
+    Example: <strong>Adapter</strong> (makes incompatible interfaces work together), <strong>Decorator</strong> (add behavior without subclassing)<br><br>
+    3. <em>Behavioral patterns</em> — how objects communicate<br>
+    Example: <strong>Observer</strong> (notify dependents of state changes), <strong>Strategy</strong> (switch algorithms at runtime)
+  </div></div>
+</div>
+
+<!-- UBUNG 07 -->
+<div class="panel" id="panel-u07">
+  <h2>Übung 7: UML Diagrams</h2>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q1: UML multiple choice correct answers <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    1. Correct: <strong>"UML serves for modeling and visualization of software systems"</strong> (not a programming language; works for non-OO systems too)<br>
+    2. For interactions over time: <strong>Sequence diagram</strong><br>
+    3. Class diagrams show: <strong>structure of classes, attributes, and relationships</strong><br>
+    4. Structural (static) diagrams: <strong>Class diagram, Object diagram, Component diagram</strong> (Activity and Sequence are behavioral)<br>
+    5. Use Case diagram elements: <strong>Actors, Use Cases, Relationships (include/extend)</strong> (not classes, not activity states)
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q2: What is a Context Diagram? Relation to C4 model? <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    A <strong>Context Diagram</strong> shows a system in relation to its environment — it identifies the system boundary and shows what external actors (users, other systems) interact with it. It does NOT show internal structure, implementation details, or data flows.<br><br>
+    <strong>C4 relation:</strong> The C4 Model's Level 1 (System Context) IS a context diagram. In C4 notation, it shows: the system (central box), people (actors), and external software systems, with labeled relationships.<br><br>
+    <strong>What is intentionally omitted:</strong> Internal components, database structure, technologies, message protocols, data formats. These appear in Level 2 (Container), Level 3 (Component), or detailed UML diagrams.
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q4: UML Relationships — Association, Aggregation, Composition, Inheritance <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>Association:</strong> A general "uses" or "knows about" relationship. → Represented by a plain line. Multiplicity shown at ends (e.g., 1..*).<br><br>
+    <strong>Aggregation (weak "has-a"):</strong> A whole-part relationship where the part can exist independently of the whole. → Diamond (hollow) at the whole end. Example: Department has Employees (employees exist without the department).<br><br>
+    <strong>Composition (strong "has-a"):</strong> A whole-part relationship where the part CANNOT exist without the whole. → Diamond (filled) at the whole end. Example: Faculty has a Library (library belongs exclusively to that faculty).<br><br>
+    <strong>Inheritance (generalization):</strong> "is-a" relationship; child class extends parent. → Arrow with hollow triangular head pointing to parent. Example: Circle extends Shape.<br><br>
+    <strong>Realization (interface implementation):</strong> Class implements an interface. → Dashed arrow with hollow triangular head.<br><br>
+    <strong>Dependency:</strong> One class uses another temporarily. → Dashed arrow.
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q6: Sequence diagram — key UML elements <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>Key elements of a UML Sequence Diagram:</strong><br>
+    — <em>Lifelines</em>: Vertical dashed lines representing participants (actors, objects, systems)<br>
+    — <em>Activation bars</em>: Rectangles on lifelines showing when a participant is active<br>
+    — <em>Messages</em>: Horizontal arrows between lifelines (synchronous: solid arrow; async: open arrow; return: dashed arrow)<br>
+    — <em>Alt/Opt frames</em>: Combined fragments for alternative flows (alt = if/else; opt = optional; loop = loops; par = parallel)<br><br>
+    <strong>For the "Dozent uploads material" flow:</strong> Dozent → Website → Backend → MinIO/Storage (save file) → Database (save metadata) → response chain back<br><br>
+    <strong>Alternative flow:</strong> If file type invalid → Backend returns error → Website shows error message to Dozent
+  </div></div>
+</div>
+
+<!-- UBUNG 08 -->
+<div class="panel" id="panel-u08">
+  <h2>Übung 8: SOLID Principles</h2>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">All 5 SOLID Principles — full explanations <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>S — Single Responsibility Principle (SRP):</strong> A class should have only ONE reason to change — it should do one thing only. Example violation: OrderService that also handles logging and email sending. Fix: split into separate classes.<br><br>
+    <strong>O — Open/Closed Principle (OCP):</strong> Software entities should be open for extension but closed for modification. Add new behavior via inheritance/composition, not by changing existing code. Example: add a new payment method by creating a new class implementing PaymentInterface, without touching existing payment code.<br><br>
+    <strong>L — Liskov Substitution Principle (LSP):</strong> Objects of subclasses must be usable wherever objects of the parent class are expected, without breaking correctness. If Bird has fly(), then Penguin cannot extend Bird if Penguin cannot fly().<br><br>
+    <strong>I — Interface Segregation Principle (ISP):</strong> Clients should not be forced to depend on interfaces they don't use. Split large interfaces into smaller, role-specific ones. Violation example: IUniversalService with pay(), calculateDiscount(), logAction() — forces classes to implement methods they don't need.<br><br>
+    <strong>D — Dependency Inversion Principle (DIP):</strong> High-level modules should not depend on low-level modules — both should depend on abstractions. And abstractions should not depend on details. Use interfaces/abstract classes rather than concrete implementations. Enables dependency injection.
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q1 MC answers: SOLID multiple choice <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    1. "Only one reason to change" → <strong>Single Responsibility Principle</strong><br>
+    2. OCP correct statements: <strong>Open for extension, closed for modification</strong> AND <strong>Add via inheritance/composition</strong><br>
+    3. Subclasses replaceable wherever superclass expected → <strong>Liskov Substitution Principle</strong><br>
+    4. Best OrderService implementation → <strong>public Order createOrder(int customerId, int productId) { return new Order(1, customerId, productId); }</strong> (matches UML: returns Order, takes 2 params)<br>
+    5. Interface statements: <strong>defines how to interact</strong> + <strong>serves decoupling</strong> + <strong>class can implement multiple interfaces</strong> (NOT: interfaces cannot contain implementation details — actually in Java 8+ they can have default methods, but traditionally FALSE)<br>
+    7. Component interfaces: <strong>defines services offered</strong> + <strong>can serve exchangeability</strong> (NOT: always contain implementations)
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q3: Identify SOLID violations in the IUniversalService diagram <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>Violation 1 — ISP (Interface Segregation):</strong> IUniversalService combines pay(), calculateDiscount(), logAction() — three unrelated responsibilities. ShoppingCart is forced to depend on logAction() even if it only needs discounts.<br>
+    Fix: Split into IPaymentService, IDiscountService, ILoggingService.<br><br>
+    <strong>Violation 2 — SRP (Single Responsibility):</strong> ShoppingCart handles items AND payment processing (processPayment method) — two distinct responsibilities.<br>
+    Fix: Remove processPayment from ShoppingCart; delegate to a separate CheckoutService.<br><br>
+    <strong>Violation 3 — OCP (Open/Closed):</strong> PaymentService has PaypalPay() and CreditCardPay() as concrete methods. Adding a new payment type requires modifying PaymentService.<br>
+    Fix: Create a PaymentStrategy interface with a pay() method; implement PaypalPayment, CreditCardPayment as separate classes.
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q5: Activity Diagram — Euclidean Algorithm <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>Euclidean Algorithm:</strong> gcd(a, b) — finds greatest common divisor<br><br>
+    Activity Diagram structure:<br>
+    ① Initial node (filled circle)<br>
+    ↓<br>
+    ② Action: "Input a, b"<br>
+    ↓<br>
+    ③ Decision: "b == 0?"<br>
+    — YES → Action: "return a" → Activity Final Node<br>
+    — NO → Action: "temp = b; b = a mod b; a = temp" → loop back to ③<br><br>
+    <strong>Key elements needed:</strong> Initial Node (●), Activity Final Node (◉), Decision/Merge Node (◇), Actions (rectangles), Arrows with guards [condition]
+  </div></div>
+</div>
+
+<!-- UBUNG 09 -->
+<div class="panel" id="panel-u09">
+  <h2>Übung 9: Software Quality & Testing 1</h2>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q1: MC answers — Testing concepts <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    1. Test pyramid layers: <strong>Unit Tests, Integration Tests, System Tests</strong> (not "Stakeholder Tests")<br>
+    2. Correct testing statement: <strong>"Testing increases software quality"</strong> AND <strong>"Combination of automated and manual tests is usually sensible"</strong> (High coverage ≠ always sensible; 100% coverage ≠ bug-free)<br>
+    3. V&V: <strong>"Beta tests with real users are an example of validation"</strong> AND <strong>"Load tests contribute to verification"</strong> (Verification ≠ user requirements fulfilled — that's validation)<br>
+    4. Test planning: <strong>"Should start early"</strong> + <strong>"Risk-based testing prioritizes critical areas"</strong> + <strong>"Traceability links tests to requirements"</strong> (Planning does NOT guarantee bug-free)<br>
+    5. Test pyramid: <strong>"70/20/10 is a heuristic"</strong> + <strong>"Ice Cone anti-pattern leads to slow pipelines"</strong> (Many UI tests is NOT best practice)<br>
+    7. Version with many new features breaking existing requirements → neglected: <strong>Functional Suitability</strong><br>
+    9. App fails completely on small network errors → missing: <strong>Robustness</strong>
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q2: Verification vs. Validation — classify the scenarios <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>Verification</strong> ("Are we building the product right?" — conformance to specification):<br>
+    (a) Check if specified fields are correctly implemented ✓<br>
+    (c) Unit tests for input validation ✓<br>
+    (e) Automated test checks database persistence as specified ✓<br>
+    (f) Check Pflichtenheft layout rules ✓<br><br>
+    <strong>Validation</strong> ("Are we building the right product?" — meeting real user needs):<br>
+    (b) Real users test if app helps them manage appointments faster ✓<br>
+    (d) Product Owner evaluates reminder function usability ✓<br>
+    (g) Focus group evaluates if weekly view helps them ✓
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q3: Manual vs. Automated Testing — classify scenarios <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>Manual testing:</strong><br>
+    (a) Checking if checkout workflow is logically understandable → subjective, human judgment needed<br>
+    (c) Exploratory testing for unexpected bugs → creativity required<br>
+    (e) UX designer checks buttons, colors, icons → visual/aesthetic judgment<br><br>
+    <strong>Automated testing:</strong><br>
+    (b) Every build checks all payment methods → regression test, must be fast and repeatable<br>
+    (d) 1,000 shopping carts → load test, impossible manually at scale<br>
+    (f) Nightly regression suite for login, logout, article display → repetitive, time-critical
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q4: Test levels — Unit → Integration → System → E2E <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>Unit Test:</strong> SUT = single method/class (e.g., CourseService.enrollUser()). Dependencies: all replaced by Mocks. Goal: logic bugs in single unit. Example: enrollUser() with valid ID → returns success<br><br>
+    <strong>Integration Test:</strong> SUT = CourseService + its real database. External services (Email, other services) still mocked. Goal: interface/data layer bugs. Example: enroll user → check database row is created<br><br>
+    <strong>System Test:</strong> SUT = full deployed system (Course + User + Notification services) against real requirements. UI not tested. Goal: functional requirement coverage. Example: "User can enroll in course" end-to-end via API<br><br>
+    <strong>E2E Test:</strong> SUT = complete system from UI. All services real, near-production environment. Goal: business process validation. Example: Open browser → login → search course → enroll → receive confirmation email
+  </div></div>
+</div>
+
+<!-- UBUNG 10 -->
+<div class="panel" id="panel-u10">
+  <h2>Übung 10: Testing 2 — White-box, Black-box, TDD</h2>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q1: White-Box Testing — CFG, Statement Coverage, Branch Coverage, Term Coverage <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>Calculator.getTotal() — Control Flow Graph (CFG):</strong><br>
+    Node 1: total=0, i=0 (initialization)<br>
+    Node 2: while i &lt; limit? (loop condition)<br>
+    — NO → Node 5: return total<br>
+    — YES → Node 3: if i%2==0 AND factor>1?<br>
+    &nbsp;&nbsp;— YES → total += i * factor<br>
+    &nbsp;&nbsp;— NO → total += i<br>
+    Node 4: i++ → back to Node 2<br><br>
+    <strong>Statement Coverage (all statements executed at least once):</strong><br>
+    TC1: Calculator(3, 2) — limit=3, factor=2 → i runs 0,1,2. i=0: even+factor>1 → total+=0*2; i=1: odd → total+=1; i=2: even+factor>1 → total+=4. Covers all statements including both branches of the if.<br><br>
+    <strong>Branch Coverage (all edges traversed — need MINIMUM test cases):</strong><br>
+    TC1: Calculator(0, 2) → while condition FALSE → loop not entered (covers while=false branch)<br>
+    TC2: Calculator(3, 2) → covers while=true, if(even AND factor>1)=true AND false (i=1 is odd)<br>
+    → 2 test cases cover 100% Branch Coverage<br><br>
+    <strong>Term/Condition Coverage (each individual boolean term evaluated TRUE and FALSE):</strong><br>
+    Condition: (i%2==0) AND (factor>1) — two terms, each must be T and F independently.<br>
+    TC-A: Calculator(4, 2) → i=0: i%2==0 is T, factor>1 is T<br>
+    TC-B: Calculator(4, 1) → factor>1 is F (covers factor>1=FALSE)<br>
+    TC-C: Calculator(3, 2) → i=1: i%2==0 is F (covers i%2==0=FALSE)<br>
+    → 3 test cases cover 100% Term Coverage
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q2: Black-Box Testing — Equivalence Classes and Boundary Values for ShippingService <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>Equivalence Classes for weight [0.0, 50.0]:</strong><br>
+    EC1 (invalid): weight &lt; 0 → IllegalArgumentException<br>
+    EC2 (valid, &lt;1.0): 0.0 ≤ weight &lt; 1.0 → base fee = 5€<br>
+    EC3 (valid, 1–10): 1.0 ≤ weight &lt; 10.0 → base fee = 10€<br>
+    EC4 (valid, ≥10): 10.0 ≤ weight ≤ 50.0 → base fee = 20€<br>
+    EC5 (invalid): weight > 50.0 → IllegalArgumentException<br><br>
+    <strong>Equivalence Classes for distance [0, 2000]:</strong><br>
+    EC6 (invalid): distance &lt; 0 → exception<br>
+    EC7 (valid): 0 ≤ distance ≤ 2000 → +2€ per started 100km<br>
+    EC8 (invalid): distance > 2000 → exception<br><br>
+    <strong>Boundary Values for weight:</strong><br>
+    -0.01 (invalid) | 0.0 | 0.99 | 1.0 | 9.99 | 10.0 | 50.0 | 50.01 (invalid)<br><br>
+    <strong>Cost example:</strong> weight=5.0 (EC3), distance=150 → 10€ + 2*2€ = 14€ (150/100 = 1.5, rounds up to 2 × 100km blocks)
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q3: TDD — what is it and how does ParkingFeeCalculator work? <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>TDD (Test-Driven Development):</strong> A development methodology where tests are written BEFORE the implementation code.<br><br>
+    <strong>TDD cycle (Red → Green → Refactor):</strong><br>
+    1. <em>Red</em>: Write a failing test for the next small piece of functionality<br>
+    2. <em>Green</em>: Write the minimum code to make the test pass<br>
+    3. <em>Refactor</em>: Clean up code without changing behavior<br>
+    Repeat for each new feature.<br><br>
+    <strong>ParkingFeeCalculator test cases:</strong><br>
+    — lostTicket=true → 3000 cents (30€)<br>
+    — duration=0, lostTicket=false → 0 cents (first 10 min free)<br>
+    — duration=10, lostTicket=false → 0 cents (still free)<br>
+    — duration=11, lostTicket=false → 200 cents (1st hour: 2€)<br>
+    — duration=60, lostTicket=false → 200 cents (1 hour)<br>
+    — duration=61, lostTicket=false → 400 cents (2nd hour started)<br>
+    — duration=-1 → IllegalArgumentException<br>
+    — lostTicket=true overrides duration → always 3000 cents
+  </div></div>
+</div>
+
+<!-- UBUNG 11 -->
+<div class="panel" id="panel-u11">
+  <h2>Übung 11: Software Operation & Maintenance</h2>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q1: Eisberg Model, Bathtub Curve, Technical Debt, Ostrich Algorithm <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>Eisberg (Iceberg) Model:</strong> Like an iceberg, the visible part (initial development) is small; the majority of costs (60%+) are below the surface — maintenance, operations, monitoring, bug fixes, new features. Correct: "A large part of total costs arise after the initial release."<br><br>
+    <strong>Bathtub Curve phases:</strong><br>
+    — <em>Early failures (infant mortality):</em> Häufung von Konfigurationsfehlern direkt nach Release<br>
+    — <em>Stable phase (normal operation):</em> Seltene, schwer reproduzierbare Fehler nach langer Laufzeit<br>
+    — <em>Aging/Drift:</em> Zunehmende Störungen durch veraltete Abhängigkeiten und technische Schulden<br><br>
+    <strong>Ostrich Algorithm (ignore the problem):</strong><br>
+    (a) UI glitch at 0.01%, no payment impact → <em>Acceptable to ignore</em> (low risk, low impact)<br>
+    (b) Wrong invoice amounts at 0.01% → <em>NOT acceptable</em> (financial/legal risk)<br>
+    (c) Rare race condition with data loss → <em>Borderline</em> — needs risk assessment; data loss is severe, but rarity and fix cost must be weighed
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q2: Maintenance types — Lientz/Swanson classification <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>4 maintenance types:</strong><br>
+    — <em>Corrective:</em> Fix defects found after release<br>
+    — <em>Adaptive:</em> Adapt to changed environment (new OS, new laws, API changes)<br>
+    — <em>Perfective:</em> Improve quality, performance, usability — not fixing bugs<br>
+    — <em>Preventive:</em> Proactive work to prevent future problems (refactoring, technical debt reduction)<br><br>
+    <strong>Classification:</strong><br>
+    (a) DSGVO compliance changes → <em>Adaptive</em><br>
+    (b) API v2 → v3 migration → <em>Adaptive</em><br>
+    (c) Performance tuning p95 latency → <em>Perfective</em><br>
+    (d) NullPointerException after release → <em>Corrective</em><br>
+    (e) Refactoring + test coverage → <em>Preventive</em><br>
+    (f) Remove dead code/feature flags → <em>Preventive</em><br><br>
+    <strong>Why preventive maintenance is hard to sell:</strong> No visible output; business sees cost without immediate benefit; "if it ain't broke, don't fix it" mindset. Counter-arguments: reduces long-term costs; prevents outages; faster future development.
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q4: SLA calculation + Monitoring + MTTR <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>Max downtime at 99.95% availability:</strong><br>
+    Total minutes/year = 365 × 24 × 60 = 525,600 min<br>
+    Allowed downtime = 525,600 × 0.0005 = <strong>262.8 minutes ≈ 4.38 hours/year</strong><br><br>
+    <strong>Why additional "nines" are disproportionately expensive:</strong><br>
+    99.9% → 526 min downtime/year (relatively easy: good deployment practices)<br>
+    99.99% → 52.6 min/year → requires redundant infrastructure, fast auto-failover, 24/7 on-call<br>
+    Each additional nine cuts allowed downtime by 90%, requiring massive infrastructure investment.<br><br>
+    <strong>MTTR (Mean Time To Repair/Recovery):</strong> Average time to restore service after an incident.<br>
+    — Internal reporting service: MTTR goal ~4-8 hours (not customer-facing)<br>
+    — Checkout service: MTTR goal &lt;15 minutes (every minute = revenue loss)<br><br>
+    <strong>Monitoring examples:</strong><br>
+    Metrics: HTTP request rate, p95 response time, CPU usage<br>
+    Logs: Error stack traces, user login events, payment failures<br>
+    Traces: End-to-end request trace from frontend → backend → database
+  </div></div>
+
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">Q3: Legacy systems — strategies and Strangler Pattern <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">
+    <strong>For the described legacy system</strong> (12 years old, no CI, high business value, EOL runtime):<br>
+    Best strategy: <strong>Re-Engineering + Strangler Pattern</strong> (not replacing outright — too risky with high business value and poor documentation)<br><br>
+    <strong>Strangler Fig Pattern:</strong> Gradually replace the legacy system by building new functionality around it. New features are built as separate services. Over time, functionality is "strangled" out of the monolith and into the new system. The old system handles remaining traffic until it can be decommissioned. Key benefit: zero-downtime migration; low risk; incremental delivery. Steps: (1) identify stable domains, (2) build new service for that domain, (3) redirect traffic via API Gateway, (4) retire old module, (5) repeat.
+  </div></div>
+</div>
+
+<!-- EXAM ANSWERS -->
+<div class="panel" id="panel-exam">
+  <h2>Probeklausur — Full Model Answers</h2>
+  <p style="font-size:12px;color:var(--text-secondary);margin-bottom:12px">Based on the WS25/26 sample exam. 70 points total, 90 minutes.</p>
+
+  <div class="exam-q">
+    <div class="exam-pts">Q1 — Multiple Choice (10 pts, 1pt each)</div>
+    <div class="exam-title">Correct answers:</div>
+    <div class="exam-ans">
+      <strong>Q1 Domänenmodell:</strong> (a) fachliche Abstraktion der realen Welt + (c) gemeinsames Begriffs- und Verständnismodell<br>
+      <strong>Q2 60/60 Rule:</strong> (a) ~60% of total costs in maintenance + (b) ~60% of maintenance costs = further development<br>
+      <strong>Q3 CFG:</strong> (a) graph-based representation of all possible execution paths + (b) directed graph with basic blocks as nodes<br>
+      <strong>Q4 Socket/Lollipop:</strong> Socket = required interface (a) | Lollipop = provided interface (c)<br>
+      <strong>Q5 Test pyramid:</strong> (a) Unit tests form the base + (b) Unit tests check individual components + (d) Integration tests check interaction of components<br>
+      <strong>Q6 Scrum roles:</strong> (a) Scrum Master + (b) Developers + (d) Product Owner [NOT Projektmanager]<br>
+      <strong>Q7 RTM:</strong> (b) ensures traceability of requirements to test cases + (d) helps ensure all requirements are tested<br>
+      <strong>Q8 C4 levels:</strong> (b) Context-Level + (c) Container-Level + (d) Component-Level [NOT Code-Review]<br>
+      <strong>Q9 Anti-patterns:</strong> (a) Golden Hammer + (d) Big Ball of Mud<br>
+      <strong>Q10 Coverage approaches:</strong> (d) Statement Coverage [Random-Path, Fuzzy, Loop-Bounce are invented]
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="exam-pts">Q2 — Spannungsdreieck (4 pts)</div>
+    <div class="exam-title">Triangle of Tension</div>
+    <div class="exam-ans">
+      <strong>Drawing:</strong> An equilateral triangle with one corner each labeled: <em>Scope (Features)</em>, <em>Time/Cost</em>, <em>Quality</em><br><br>
+      <strong>Explanation:</strong> The triangle of tension (Iron Triangle) represents the three fundamental constraints of any software project. Each corner represents a dimension: scope (what is built), time/cost (resources available), and quality (how well it works). These constraints are in tension because optimizing one negatively affects the others. For example, adding more features (scope) requires either more time/cost or reduced quality. This is why it is called a "tension" triangle — there is a constant pulling force between the three dimensions that project managers must balance.
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="exam-pts">Q3 — Grobentwurf vs. Feinentwurf (4 pts)</div>
+    <div class="exam-title">Coarse vs. Fine Design</div>
+    <div class="exam-ans">
+      <strong>Grobentwurf (Coarse/System Architecture):</strong> High-level design that defines the overall structure of the system — its major components, their responsibilities, and how they interact. It answers "what major parts exist and how do they connect?" UML: <em>Component Diagram</em> or C4 Container Diagram.<br><br>
+      <strong>Feinentwurf (Fine/System Design):</strong> Low-level, detailed design that specifies internal structure of each component — class hierarchies, attributes, method signatures, algorithms. It answers "how is each component internally structured?" UML: <em>Class Diagram</em> or Sequence Diagram.
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="exam-pts">Q4 — Structure vs. Behavior Diagrams (2 pts)</div>
+    <div class="exam-ans">
+      <strong>Structural (static) diagrams</strong> describe the static aspects of the system — what elements exist and how they relate. Examples: Class Diagram, Component Diagram, Object Diagram, Package Diagram.<br><br>
+      <strong>Behavioral (dynamic) diagrams</strong> describe how the system behaves over time — the flow of control and data, interactions, state changes. Examples: Sequence Diagram, Activity Diagram, State Machine Diagram, Use Case Diagram.
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="exam-pts">Q5+Q6 — S and O in SOLID (2+2 pts)</div>
+    <div class="exam-ans">
+      <strong>S — Single Responsibility Principle:</strong> A class should have exactly one reason to change — it should be responsible for exactly one piece of functionality. This makes classes easier to understand, test, and maintain.<br><br>
+      <strong>O — Open/Closed Principle:</strong> Software entities (classes, modules) should be open for extension but closed for modification. New behavior is added by creating new classes or using inheritance/composition, not by changing existing code. This prevents regression bugs and keeps existing tests valid.
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="exam-pts">Q7 — Artifacts (6 pts)</div>
+    <div class="exam-ans">
+      <strong>Design Artifacts:</strong> 1 (Class diagrams), 3 (Sequence diagrams), 5 (UI Mockups)<br>
+      <strong>Implementation Artifacts:</strong> 2 (Unit Tests), 4 (Database tables/SQL), 6 (Business logic source code)
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="exam-pts">Q8 — Architecture Style for Smart City Traffic (6 pts)</div>
+    <div class="exam-ans">
+      <strong>1. Disadvantage of current approach (monolithic, single processing step):</strong> Tight coupling makes it impossible to test or change individual processing steps in isolation. A bug or change in one step risks breaking the entire pipeline.<br><br>
+      <strong>2. Recommended style: Pipes & Filters Architecture</strong><br>
+      Argument 1: The system is fundamentally a data processing pipeline (sensor data → clean → aggregate → analyze → output), which maps perfectly to Pipes & Filters.<br>
+      Argument 2: Each processing step (filter) can be developed, tested, and replaced independently, solving the current isolation problem.<br>
+      Argument 3: New analysis steps can be inserted into the pipeline without modifying existing filters (OCP-compatible).<br><br>
+      <strong>3. Disadvantage of Pipes & Filters:</strong> The slowest filter limits overall throughput (bottleneck). Error handling and retry logic across a pipeline is complex.
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="exam-pts">Q9 — White-Box Testing: BonusCalculator (9 pts)</div>
+    <div class="exam-ans">
+      <strong>1. CFG — use actual line numbers from the code:</strong><br>
+      <code style="background:rgba(0,0,0,.06);border-radius:3px;padding:1px 4px;font-size:11.5px">L10–11</code> int bonus=0 →
+      <code style="background:rgba(0,0,0,.06);border-radius:3px;padding:1px 4px;font-size:11.5px">L14</code> if(years&lt;0 ‖ rating&lt;1 ‖ rating&gt;5)?<br>
+      &nbsp;&nbsp;— TRUE → <code style="background:rgba(0,0,0,.06);border-radius:3px;padding:1px 4px;font-size:11.5px">L15</code> return -1<br>
+      &nbsp;&nbsp;— FALSE → <code style="background:rgba(0,0,0,.06);border-radius:3px;padding:1px 4px;font-size:11.5px">L19</code> if(years≥5)?<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;— TRUE → <code style="background:rgba(0,0,0,.06);border-radius:3px;padding:1px 4px;font-size:11.5px">L20</code> bonus=1000 → merge<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;— FALSE → merge → <code style="background:rgba(0,0,0,.06);border-radius:3px;padding:1px 4px;font-size:11.5px">L24</code> if(rating≥4)?<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;— TRUE → <code style="background:rgba(0,0,0,.06);border-radius:3px;padding:1px 4px;font-size:11.5px">L25</code> bonus=bonus+500 → merge<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;— FALSE → <code style="background:rgba(0,0,0,.06);border-radius:3px;padding:1px 4px;font-size:11.5px">L27</code> bonus=bonus+200 → merge → <code style="background:rgba(0,0,0,.06);border-radius:3px;padding:1px 4px;font-size:11.5px">L30</code> return bonus<br><br>
+      <strong>2. Three coverage strategies:</strong> Statement Coverage | Branch Coverage | Condition/Term Coverage<br><br>
+      <strong>3. MINIMUM test cases for Statement + Branch Coverage (exam says: "so wenig wie möglich" = as few as possible):</strong><br>
+      Only 3 test cases needed — NOT 4:<br>
+      TC1: years=-1, rating=3 → return -1 &nbsp;<em style="color:var(--text-muted)">(covers invalid branch L15)</em><br>
+      TC2: years=3, rating=3 → bonus=200 &nbsp;<em style="color:var(--text-muted)">(covers: years≥5 FALSE, rating≥4 FALSE → L27)</em><br>
+      TC3: years=5, rating=4 → bonus=1500 &nbsp;<em style="color:var(--text-muted)">(covers: years≥5 TRUE → L20, rating≥4 TRUE → L25)</em><br><br>
+      ✓ Statement: all lines executed (L10,L14,L15 via TC1; L19,L24,L27,L30 via TC2; L20,L25 via TC3)<br>
+      ✓ Branch: L14 TRUE/FALSE, L19 TRUE/FALSE, L24 TRUE/FALSE — all 6 branches covered<br><br>
+      <strong>4. TDD:</strong> Test-Driven Development — tests are written BEFORE implementation. Cycle: <em>Red</em> (write failing test) → <em>Green</em> (write minimum code to pass) → <em>Refactor</em> (clean up). Repeat for each feature.
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="exam-pts">Q10 — Aktivitätsdiagramm: Online Shop (5 pts)</div>
+    <div class="exam-title">⚠ Draw on paper — must include all 4 required elements</div>
+    <div class="exam-ans">
+      <strong>Scenario:</strong> Customer adds items to cart → decides checkout or continue shopping → at checkout: payment + shipping run IN PARALLEL → when both done → order complete.<br><br>
+      <strong>Required elements (stated in exam):</strong> Initial Node ● | Activity Final Node ◉ | Decision/Merge Node ◇ | <strong>Fork Node ■</strong> (thick bar — most commonly forgotten!)<br><br>
+      <strong>Diagram structure:</strong><br>
+      ● Initial Node<br>
+      ↓<br>
+      □ <em>"Artikel in Warenkorb legen"</em><br>
+      ↓<br>
+      ◇ Decision: <em>"Zur Kasse gehen?"</em><br>
+      &nbsp;&nbsp;— [Nein] → □ <em>"Weitere Artikel hinzufügen"</em> → loop back ↑<br>
+      &nbsp;&nbsp;— [Ja] ↓<br>
+      ■ <strong>Fork Node</strong> (splits into 2 parallel flows)<br>
+      &nbsp;&nbsp;├──→ □ <em>"Zahlung bearbeiten"</em><br>
+      &nbsp;&nbsp;└──→ □ <em>"Versandvorbereitung durchführen"</em><br>
+      ■ <strong>Join Node</strong> (waits for BOTH to complete)<br>
+      ↓<br>
+      □ <em>"Bestellung abgeschlossen"</em><br>
+      ↓<br>
+      ◉ Activity Final Node<br><br>
+      <strong>Key points:</strong> Fork and Join are both drawn as thick horizontal bars ■. Fork = one flow splits into many parallel flows. Join = parallel flows synchronize before continuing. The Decision node ◇ handles the loop (continue shopping), not the parallel split.
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="exam-pts">Q11 — Klassendiagramm: Universitätsverwaltung (9 pts)</div>
+    <div class="exam-title">⚠ Draw on paper — check all required elements</div>
+    <div class="exam-ans">
+      <strong>Scenario:</strong> A faculty (Fakultät) employs multiple professors. Each professor teaches multiple courses. Each faculty owns exactly one library that belongs exclusively to it.<br><br>
+      <strong>4 Classes required:</strong> Fakultät | Professor | Kurs | Bibliothek<br><br>
+      <strong>Relationships:</strong><br>
+      • <strong>Fakultät ◇──→ Professor</strong>: <em>Aggregation</em> (hollow diamond at Fakultät) — "beschäftigt". Multiplicity: 1 Fakultät has 1..* Professors. Professors could exist without the Fakultät (e.g., transferred). Label: "beschäftigt"<br>
+      • <strong>Professor ──→ Kurs</strong>: <em>Association</em> — "unterrichtet". Multiplicity: 1 Professor teaches 1..* Kurse. Label: "unterrichtet"<br>
+      • <strong>Fakultät ◆──→ Bibliothek</strong>: <em>Composition</em> (filled diamond at Fakultät) — "besitzt". Multiplicity: 1 Fakultät has exactly 1 Bibliothek. The library cannot exist without the faculty. Label: "besitzt"<br><br>
+      <strong>Minimum attributes and methods per class (exam requires ≥2 attributes + ≥1 method each):</strong><br>
+      Fakultät: +name: String, +adresse: String | +getStudentCount(): int<br>
+      Professor: -name: String, -email: String | +unterrichten(): void<br>
+      Kurs: -titel: String, -credits: int | +getKursInfo(): String<br>
+      Bibliothek: -name: String, -bestand: int | +ausleihen(titel: String): boolean<br><br>
+      <strong>Visibility symbols:</strong> + = public &nbsp;| &nbsp;- = private &nbsp;| &nbsp;# = protected<br>
+      <strong>Remember:</strong> Write attribute types (String, int) and method return types — exam explicitly requires "Typangabe".
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="exam-pts">Q12 — Class Diagram Errors in Galeria Nova (11 pts)</div>
+    <div class="exam-ans">
+      <strong>Use notation A1/K1/V1/M1 — connect with a solid line to the error location in diagram:</strong><br><br>
+      <strong>K1 — Kunstobjekt must be abstract:</strong> Kunstobjekt is the parent of Gemälde and Skulptur. The diagram contains a hint: "Abstrakte Klassen verhindern die Erstellung von konkreten Objekten" → Kunstobjekt should never be instantiated directly, only its subclasses. Fix: mark class name in <em>italics</em> or add «abstract» stereotype.<br><br>
+      <strong>M1 — Ticket.getTicketInfo() has wrong visibility:</strong> The method shows <code style="background:rgba(0,0,0,.06);border-radius:3px;padding:1px 4px;font-size:11.5px">-getTicketInfo(): String</code> (private = dash). But the diagram shows a "calls getTicketInfo()" relationship from outside → must be publicly accessible. Fix: change to <code style="background:rgba(0,0,0,.06);border-radius:3px;padding:1px 4px;font-size:11.5px">+getTicketInfo(): String</code>.<br><br>
+      <strong>A1 — "calls getTicketInfo()" arrow is wrong notation:</strong> A solid association arrow labeled "calls getTicketInfo()" is incorrect UML. Method calls are shown as dashed dependency arrows (- - →) or handled via Sequence Diagrams. Fix: replace with a dashed dependency arrow «use» or remove the label and use a proper dependency.<br><br>
+      <strong>A2 — Museum→Ausstellung should be Composition:</strong> Ausstellungen belong exclusively to one Museum and cannot exist independently (if the museum closes, exhibitions cease to exist). Fix: change plain association to Composition (filled diamond ◆ at Museum side). Multiplicity: Museum 1 ◆──→ 1..* Ausstellung.<br><br>
+      <strong>V1 — Ausstellung.reservierungen: List&lt;Besucher&gt; has wrong type:</strong> Reservations are made via Tickets, not directly via Besucher. Storing a List of Besucher here bypasses the Ticket class entirely. Fix: change type to <code style="background:rgba(0,0,0,.06);border-radius:3px;padding:1px 4px;font-size:11.5px">List&lt;Ticket&gt;</code>.<br><br>
+      <strong>Note on multiplicity (bonus — exam says missing multiplicities are NOT errors but should be added):</strong><br>
+      Museum 1 ◆──→ 1..* Ausstellung | Ticket *──→ 1 Besucher | Ticket *──→ 1 Ausstellung | Künstler 1..*──→ 1..* Kunstobjekt
+    </div>
+  </div>
+</div>
+
+<!-- FLASHCARDS -->
+<div class="panel" id="panel-flash">
+  <h2>Quick Flashcards — Key Concepts</h2>
+  <div class="progress" id="fc-topics">
+    <span class="pill active" onclick="setTopic('all')">All</span>
+    <span class="pill" onclick="setTopic('theory')">Theory</span>
+    <span class="pill" onclick="setTopic('arch')">Architecture</span>
+    <span class="pill" onclick="setTopic('uml')">UML</span>
+    <span class="pill" onclick="setTopic('solid')">SOLID</span>
+    <span class="pill" onclick="setTopic('test')">Testing</span>
+    <span class="pill" onclick="setTopic('ops')">Operations</span>
+  </div>
+  <div class="flashcard" id="fc" onclick="flipCard()">
+    <div class="fc-front" id="fc-front"></div>
+    <div class="fc-back" id="fc-back"></div>
+    <div class="fc-hint" id="fc-hint">tap to reveal answer</div>
+  </div>
+  <div class="fc-nav">
+    <button class="fc-btn" onclick="prevCard()">← Prev</button>
+    <span class="fc-counter" id="fc-counter">1 / 40</span>
+    <button class="fc-btn" onclick="nextCard()">Next →</button>
+  </div>
+</div>
+
+</div>
+
+<script>
+const cards = [
+  {t:'theory',q:'What is the 60/60 Rule?',a:'~60% of total software project costs are in the maintenance phase. Of those maintenance costs, ~60% go toward enhancements/new features (not bug fixes).'},
+  {t:'theory',q:'What are the 5 software characteristics?',a:'1. Intangibility (no physical form)\n2. No wear-out (but requirements decay)\n3. High complexity\n4. Maintainability (can be changed)\n5. Reproducibility (zero marginal copy cost)'},
+  {t:'theory',q:'Difference: Software vs. Software Product vs. Software System?',a:'Software: the code itself.\nSoftware Product: code + documentation + support + packaging.\nSoftware System: the full ecosystem including all integrated components, databases, and external services.'},
+  {t:'theory',q:'What is the Iron/Magic Triangle (Spannungsdreieck)?',a:'Three competing constraints: Scope (features) | Time/Cost | Quality. You cannot maximize all three simultaneously — improving one forces trade-offs in the others.'},
+  {t:'theory',q:'SE vs. Programming — key difference?',a:'Programming = writing code to solve a specific problem (implementation focus).\nSoftware Engineering = systematic application of engineering principles to the FULL lifecycle — requirements, design, implementation, testing, deployment, maintenance.'},
+  {t:'theory',q:'Scrum Roles (3)?',a:'1. Product Owner — defines and prioritizes the backlog\n2. Scrum Master — facilitates process, removes impediments\n3. Developers (Development Team) — builds the product\n[NOT: Project Manager — that is not a Scrum role]'},
+  {t:'arch',q:'C4 Model — 4 levels?',a:'Level 1: Context — system in its environment (actors + external systems)\nLevel 2: Container — deployable units (web app, API, DB)\nLevel 3: Component — internal structure of a container\nLevel 4: Code — classes/functions (usually auto-generated)'},
+  {t:'arch',q:'Pipes & Filters pattern — when to use?',a:'Use when processing data through a series of independent transformation steps (pipeline). Each filter has well-defined input/output; pipes connect them. Best for: data streaming, ETL pipelines, sensor data processing. Disadvantage: slowest filter bottlenecks the whole pipeline.'},
+  {t:'arch',q:'Microservices — advantages vs. disadvantages?',a:'Advantages: independent deployment & scaling; clear domain ownership; technology flexibility per service.\nDisadvantages: distributed complexity (network, data consistency); higher operational overhead (monitoring, security); harder debugging & testing.'},
+  {t:'arch',q:'Hexagonal / Ports & Adapters architecture?',a:'Core business logic is isolated at the center. It communicates only via Ports (interfaces). Adapters implement those ports for UI, database, messaging, external APIs. Key benefit: core logic is easily testable and infrastructure-independent.'},
+  {t:'arch',q:'Event-Driven Architecture — key concept?',a:'Components (producers) emit events on state changes; other components (consumers) react asynchronously. Communication via event bus/message broker. Benefits: loose coupling, high scalability. Drawbacks: eventual consistency, harder debugging.'},
+  {t:'arch',q:'Grobentwurf vs. Feinentwurf?',a:'Grobentwurf (System Architecture): high-level — identifies components and their interactions. UML: Component Diagram, C4 Container Diagram.\nFeinentwurf (System Design): low-level — class structures, method signatures, data types. UML: Class Diagram, Sequence Diagram.'},
+  {t:'arch',q:'High Cohesion + Low Coupling — what do they mean?',a:'High Cohesion: all elements in a module work toward ONE purpose — classes do one thing well.\nLow Coupling: modules depend on each other as little as possible — changes in one module minimally affect others. Both are key design principles for maintainable systems.'},
+  {t:'arch',q:'3 GoF Design Pattern categories + 1 example each?',a:'1. Creational (object creation): Singleton, Factory Method, Builder\n2. Structural (composition): Adapter, Decorator, Composite\n3. Behavioral (communication): Observer, Strategy, Command'},
+  {t:'uml',q:'UML Structural vs. Behavioral diagrams — examples of each?',a:'Structural (static): Class Diagram, Object Diagram, Component Diagram, Package Diagram, Deployment Diagram.\nBehavioral (dynamic): Sequence Diagram, Activity Diagram, State Machine Diagram, Use Case Diagram, Communication Diagram.'},
+  {t:'uml',q:'UML Relationship types — 4 main ones?',a:'Association: plain line (uses/knows about)\nAggregation: hollow diamond — weak whole-part (parts can exist independently)\nComposition: filled diamond — strong whole-part (parts cannot exist without whole)\nInheritance (Generalization): hollow triangle arrow pointing to parent'},
+  {t:'uml',q:'Activity diagram — required UML elements?',a:'Initial Node: filled circle ●\nActivity Final Node: circled dot ◉\nAction: rectangle with rounded corners\nDecision/Merge Node: diamond ◇ (with guards [condition])\nFork/Join Node: thick horizontal bar (for parallel flows)'},
+  {t:'uml',q:'Sequence diagram — key elements?',a:'Lifelines: vertical dashed lines for each participant\nActivation bars: rectangles on lifelines (active processing)\nSynchronous message: solid arrowhead →\nReturn message: dashed arrow ⤵\nCombined fragments: alt (if/else), opt (optional), loop, par (parallel)'},
+  {t:'uml',q:'Socket vs. Lollipop in component diagrams?',a:'Lollipop (ball) = PROVIDED interface — what a component offers to others\nSocket (half-circle/cup) = REQUIRED interface — what a component needs from others'},
+  {t:'solid',q:'S — Single Responsibility Principle?',a:'A class should have ONLY ONE reason to change — it should be responsible for exactly one piece of functionality. If a class handles both business logic AND logging, it violates SRP.'},
+  {t:'solid',q:'O — Open/Closed Principle?',a:'Software entities should be OPEN for extension but CLOSED for modification. Add new behavior via new classes/inheritance/composition — do NOT modify existing working code. Prevents regression.'},
+  {t:'solid',q:'L — Liskov Substitution Principle?',a:'Objects of subclasses must be substitutable for objects of their parent class WITHOUT breaking program correctness. If Bird has fly() and Penguin cannot fly, Penguin should NOT extend Bird.'},
+  {t:'solid',q:'I — Interface Segregation Principle?',a:'Clients should not be forced to depend on interfaces they do not use. Split fat interfaces into smaller, role-specific ones. Avoid IUniversalService with unrelated methods.'},
+  {t:'solid',q:'D — Dependency Inversion Principle?',a:'High-level modules should NOT depend on low-level modules — both depend on abstractions (interfaces). Abstractions should not depend on details. Enables dependency injection and easy substitution.'},
+  {t:'test',q:'Test Pyramid — 3 levels and the 70/20/10 rule?',a:'Base: Unit Tests (70%) — fast, cheap, test single units in isolation\nMiddle: Integration Tests (20%) — test component interactions\nTop: E2E/System Tests (10%) — test full system, slowest, most expensive\n(70/20/10 is a heuristic, not a strict rule)'},
+  {t:'test',q:'Verification vs. Validation?',a:'Verification: "Are we building the product RIGHT?" → conformance to specification (e.g., unit tests, code reviews, checking requirements are implemented)\nValidation: "Are we building the RIGHT product?" → meeting real user needs (e.g., user acceptance testing, beta testing, usability studies)'},
+  {t:'test',q:'What is a Control Flow Graph (CFG)?',a:'A directed graph representing all possible execution paths through a program. Nodes = basic blocks (sequences of statements without branching). Edges = control flow transitions (branches, loops). Used for white-box test coverage analysis.'},
+  {t:'test',q:'3 White-box coverage criteria?',a:'Statement Coverage: every statement executed at least once\nBranch Coverage: every branch (true/false) of every decision traversed\nCondition/Term Coverage: every individual boolean term in conditions evaluated both TRUE and FALSE'},
+  {t:'test',q:'Black-box testing — equivalence partitioning?',a:'Divide input space into equivalence classes where all values in a class are expected to behave the same way. Test one representative value per class. Classes: valid partitions AND invalid partitions (error cases). Reduces the number of tests needed.'},
+  {t:'test',q:'TDD — cycle and benefits?',a:'Red → Green → Refactor cycle:\n1. Write a FAILING test for the next feature\n2. Write minimum code to make it PASS\n3. REFACTOR — clean code without changing behavior\nBenefits: forces testable design, catches regressions early, serves as living documentation.'},
+  {t:'test',q:'Anti-pattern: Ice Cone (vs. Test Pyramid)?',a:'Ice Cone (inverted pyramid) = many UI/E2E tests at the top, few unit tests at the bottom. This is the ANTI-PATTERN. Results in: slow pipelines, high maintenance cost, flaky tests, poor feedback speed. Best practice is the opposite — more unit tests, fewer E2E tests.'},
+  {t:'test',q:'Boundary Value Analysis?',a:'Test at the EDGES of equivalence classes — where bugs are most likely to occur. For range [1.0, 10.0]: test values at 0.99 (just below), 1.0 (boundary), 9.99 (just below upper), 10.0 (boundary), 10.01 (just above).'},
+  {t:'ops',q:'4 Maintenance types (Lientz/Swanson)?',a:'Corrective: fix defects found after release\nAdaptive: adapt to changed environment (new API, new laws, OS update)\nPerfective: improve quality/performance without fixing bugs\nPreventive: proactive work to prevent future problems (refactoring, reducing tech debt)'},
+  {t:'ops',q:'Eisberg Model in software?',a:'Like an iceberg, only the small tip (initial development) is visible. The large hidden mass (60%+) = post-release costs: maintenance, monitoring, incident management, new features, operations. This contradicts the naive view that "delivery = done."'},
+  {t:'ops',q:'SLA & availability — 99.9% vs 99.99%?',a:'99.9% = ~8.76 hours downtime/year\n99.99% = ~52.6 minutes downtime/year\n99.999% = ~5.26 minutes/year\nEach additional "nine" requires 10x more reliability, often demanding redundant infrastructure, auto-failover, and 24/7 on-call — costs grow disproportionately.'},
+  {t:'ops',q:'MTTR — definition and examples?',a:'Mean Time To Recovery: average time to restore service after an incident.\nInternal service (non-critical): MTTR goal ~4-8 hours\nCheckout/payment service (critical): MTTR goal <15 minutes\nImproved by: better monitoring, runbooks, automation, on-call processes'},
+  {t:'ops',q:'Strangler Fig Pattern for legacy migration?',a:'Gradually replace legacy system by building new services AROUND it. New features go into the new system; old system handles remaining traffic. Traffic redirected via API Gateway. Repeat until the old system is "strangled" and can be decommissioned. Key benefit: zero-downtime, low-risk migration.'},
+  {t:'ops',q:'Bathtub curve — 3 phases?',a:'Early (infant mortality): configuration errors right after release — frequent failures\nStable (normal operation): rare, hard-to-reproduce errors — low failure rate\nAging/Drift: increasing failures from outdated dependencies and technical debt — rising failure rate'},
+  {t:'ops',q:'Incident response process steps?',a:'Detection: monitoring/alerting identifies the incident\nMitigation: immediate action to limit impact (e.g., rollback)\nRecovery: restore normal service\nPostmortem: blameless analysis of root cause and preventive measures\nKey metric: MTTR (Mean Time To Recovery)'},
+  {t:'arch',q:'Anti-patterns — Golden Hammer & Big Ball of Mud?',a:'Golden Hammer: using the same (familiar) solution for every problem regardless of fit ("if all you have is a hammer, everything looks like a nail")\nBig Ball of Mud: a system with no discernible architecture — tangled, unstructured code that evolved without design discipline'},
+];
+
+let filtered = [...cards];
+let idx = 0;
+let flipped = false;
+
+function setTopic(t){
+  document.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+  event.target.classList.add('active');
+  filtered = t==='all' ? [...cards] : cards.filter(c=>c.t===t);
+  idx=0; flipped=false; renderCard();
+}
+
+function renderCard(){
+  if(!filtered.length){
+    document.getElementById('fc-front').textContent='No cards in this category';
+    document.getElementById('fc-back').style.display='none';
+    document.getElementById('fc-hint').style.display='none';
+    return;
+  }
+  const c=filtered[idx];
+  document.getElementById('fc-front').textContent=c.q;
+  const b=document.getElementById('fc-back');
+  b.textContent=c.a; b.style.display=flipped?'block':'none';
+  document.getElementById('fc-hint').textContent=flipped?'tap to flip back':'tap to reveal answer';
+  document.getElementById('fc-counter').textContent=(idx+1)+' / '+filtered.length;
+}
+
+function flipCard(){
+  flipped=!flipped;
+  const b=document.getElementById('fc-back');
+  b.style.display=flipped?'block':'none';
+  document.getElementById('fc-hint').textContent=flipped?'tap to flip back':'tap to reveal answer';
+}
+
+function nextCard(){idx=(idx+1)%filtered.length;flipped=false;renderCard();}
+function prevCard(){idx=(idx-1+filtered.length)%filtered.length;flipped=false;renderCard();}
+
+function switchTab(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('panel-'+id).classList.add('active');
+}
+
+function tog(el){
+  const a=el.nextElementSibling;
+  const icon=el.querySelector('.qa-icon');
+  a.classList.toggle('open');
+  icon.classList.toggle('open');
+}
+
+renderCard();
+</script>
+</div><!-- /app -->
+</body>
+</html>
