@@ -251,14 +251,59 @@ code{
 @media(min-width:641px) and (max-width:900px){
   .day-grid{grid-template-columns:1fr 1fr}
 }
+
+/* ── SUBJECT NAV (top-level) ─────────────────────────── */
+.subject-nav{display:flex;gap:6px;padding:10px 0 12px;border-bottom:1px solid var(--border);margin-bottom:4px}
+.subject-tab{
+  flex:1;padding:10px 14px;font-size:13px;font-weight:600;
+  border:0.5px solid var(--border);background:var(--surface-1);
+  color:var(--text-secondary);cursor:pointer;border-radius:10px;
+  text-align:center;-webkit-tap-highlight-color:transparent;
+}
+.subject-tab.active{color:var(--text-accent);background:var(--bg-accent);border-color:var(--border-accent)}
+.subject{display:none}
+.subject.active{display:block}
+
+/* ── IM: internal tab bar (mirrors .tab/.tabs) ───────── */
+.imtabs{display:flex;flex-wrap:wrap;gap:6px;padding:10px 0 12px;border-bottom:1px solid var(--border)}
+.imtab{
+  padding:7px 14px;font-size:12.5px;font-weight:500;
+  border:0.5px solid var(--border);background:var(--surface-1);
+  color:var(--text-secondary);cursor:pointer;border-radius:20px;
+  white-space:nowrap;-webkit-tap-highlight-color:transparent;
+  transition:background .12s,color .12s,border-color .12s;
+}
+.imtab:hover{background:var(--surface-0)}
+.imtab.active{color:var(--text-accent);background:var(--bg-accent);border-color:var(--border-accent);font-weight:600}
+
+/* ── IM: panels (mirrors .panel) ─────────────────────── */
+.impanel{display:none;padding:16px 0}
+.impanel.active{display:block}
+
+/* ── IM: flashcard filter pills (mirrors .pill) ──────── */
+.impill{
+  padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;
+  cursor:pointer;border:0.5px solid var(--border);
+  color:var(--text-secondary);background:var(--surface-1);
+  -webkit-tap-highlight-color:transparent;
+}
+.impill.active{background:var(--bg-accent);color:var(--text-accent);border-color:var(--border-accent)}
 </style>
 </head>
 <body>
 <div class="app">
 <div class="app-header">
-  <div class="app-title">🎓 SE Exam Prep — HS Merseburg WS25/26</div>
-  <div class="app-sub">Prof. Schönfeld &amp; Schumacher · 70 pts · 90 min · Written in English</div>
+  <div class="app-title">🎓 Exam Prep Hub — HS Merseburg WS25/26</div>
+  <div class="app-sub">Wähle dein Fach / Choose your subject</div>
 </div>
+
+<div class="subject-nav" id="subject-nav">
+  <button class="subject-tab active" onclick="switchSubject('se')">💻 Software Engineering</button>
+  <button class="subject-tab" onclick="switchSubject('im')">📊 Innovationsmanagement</button>
+</div>
+
+<div id="subject-se" class="subject active">
+<div class="app-sub" style="margin:6px 0 12px">Prof. Schönfeld &amp; Schumacher · 70 pts · 90 min · Written in English</div>
 
 <div class="tabs" id="tabs">
   <button class="tab active" onclick="switchTab('plan')">📅 3-Day Plan</button>
@@ -1047,6 +1092,292 @@ function tog(el){
 
 renderCard();
 </script>
+</div><!-- /subject-se -->
+
+<div id="subject-im" class="subject">
+
+<div class="imtabs" id="imtabs">
+  <button class="imtab active" onclick="switchTabIM('plan')">📅 2-Tage-Plan</button>
+  <button class="imtab active" onclick="switchTabIM('grund')">Grundlagen</button>
+  <button class="imtab" onclick="switchTabIM('strat')">Strategie & Umfeld</button>
+  <button class="imtab" onclick="switchTabIM('verw')">Verwertung, Finanzierung & Recht</button>
+  <button class="imtab" onclick="switchTabIM('umset')">Kultur, Umsetzung & Erfolg</button>
+  <button class="imtab" onclick="switchTabIM('klausur')">📝 Musterklausur SS25</button>
+  <button class="imtab" onclick="switchTabIM('flash')">🃏 Karteikarten</button>
+</div>
+
+<div class="impanel active" id="impanel-plan">
+  <h2>2-Tage-Lernplan (4 Std./Tag = 8 Std. gesamt)</h2>
+  <p style="font-size:13px;color:var(--text-secondary);margin-bottom:12px">Basis: 40 Verständnisfragen (ehemalige Klausurfragen), abgeglichen mit Musterklausur SS25</p>
+  <div class="day-grid">
+    <div class="day-card">
+      <div class="day-label">Tag 1</div>
+      <div class="day-title">Grundlagen, Strategie &amp; Umfeld</div>
+      <div class="day-block"><span class="block-time">Std. 1</span><br>Definitionen (Innovation, TIM, IM vs. KVP, IM vs. Unternehmensgründung) — F1, F2, F4</div>
+      <div class="day-block"><span class="block-time">Std. 2</span><br>Aufgabenfelder &amp; Entscheidungsfelder — F14, F15, F18 (extern Beschaffung, öfter geprüft!)</div>
+      <div class="day-block"><span class="block-time">Std. 3</span><br>Innovationsportfolio (skizzieren üben!), Technologiefrüherkennung/-prognose — F9–F13</div>
+      <div class="day-block"><span class="block-time">Std. 4</span><br>Verwertung, Finanzierung, Timing — F20, F24–F27, Open Innovation (F22)</div>
+    </div>
+    <div class="day-card">
+      <div class="day-label">Tag 2</div>
+      <div class="day-title">Kultur, Recht, Umsetzung &amp; Übung</div>
+      <div class="day-block"><span class="block-time">Std. 1</span><br>Unternehmenskultur — F29, F30, F31 (sehr klausurrelevant, siehe Musterklausur F5)</div>
+      <div class="day-block"><span class="block-time">Std. 2</span><br>Recht &amp; Implementierung — F28 (Schutzrechte), F32, F33</div>
+      <div class="day-block"><span class="block-time">Std. 3</span><br>Schnittstellen, Kennzahlen, Erfolgsfaktoren — F35–F40</div>
+      <div class="day-block"><span class="block-time">Std. 4</span><br>Musterklausur SS25 unter Zeitdruck (30 Min., ohne Unterlagen) + Karteikarten-Review aller 40 Fragen</div>
+    </div>
+  </div>
+  <div class="alert-warn">
+    <strong>⚠ Nicht prüfungsrelevant:</strong> Schritt 12 (Kreativitätstechniken) kann komplett übersprungen werden. <strong>Achtung:</strong> Der Professor stellt auch Transferfragen zu aktuellen Themen (z.B. KI) — reines Auswendiglernen reicht nicht, Konzepte müssen verstanden und angewendet werden können.
+  </div>
+</div>
+
+<div class="impanel active" id="impanel-grund">
+  <h2>Grundlagen (F1–10)</h2>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F1: Definieren Sie „Innovation“. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">Zielgerichtete Durchsetzung von neuen technischen, wirtschaftlichen, organisatorischen und sozialen Kombinationen, die diskontinuierlich auftreten (nach SCHUMPETER). Beispiele: neues Produkt/Dienstleistung, neue Produktionsmethode, neuer Absatzmarkt, neue Rohstoffquelle, Neuorganisation.</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F2: Grenzen Sie Innovationsmanagement von KVP ab. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">KVP (Kaizen) = kontinuierliche, kleine, schrittweise Verbesserungen im Tagesgeschäft. Innovationsmanagement = diskontinuierliche, oft radikale Veränderungen/Neuerungen, die Instabilität auslösen und dadurch Wandel ermöglichen. IM ist Veränderungsmanagement, KVP ist Optimierung des Bestehenden.</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F3: Nennen und beschreiben Sie 2 generelle Kritikpunkte an Innovationen. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">1) Nicht jede Innovation ist nachhaltig – manche schaden Umwelt/Gesellschaft (Gegenteil: Exnovation nötig, z.B. Ausstieg aus Glühbirne, Atomkraft, Diesel). 2) Scheininnovationen – Pseudoverbesserungen ohne echten neuen Nutzen (z.B. nur neues Design) täuschen Fortschritt vor, ohne echten Mehrwert zu liefern.</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F4: Nennen Sie 3 Charakteristika von Innovationsmanagement. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">1) Unterscheidet sich grundlegend von anderen Managementtätigkeiten. 2) Ist Veränderungsmanagement, das auf dem Auslösen von Instabilität beruht. 3) Verbindet Kulturwandel (Personal, Führung) mit Technologiewandel.</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F5: Nennen Sie drei Einflüsse auf die Innovationsentstehung. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">Technologischer Wandel/Wissenschaft, Marktbedürfnisse/Kundenwünsche, gesetzliche/gesellschaftliche Rahmenbedingungen (z.B. Umweltvorschriften).</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F6: Je eine technische, organisatorische und gesellschaftliche Innovation der letzten 30 Jahre. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">Technisch: Smartphone. Organisatorisch: Agile Arbeitsmethoden (Scrum). Gesellschaftlich: Homeoffice/mobiles Arbeiten als Normalität.</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F7: 3 historische Beispiele technologiegetriebener Konjunkturwellen (Kondratieff) mit Wirkungen. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">1) Dampfmaschine (~1790) → Industrialisierung, Fabrikproduktion. 2) Eisenbahn/Stahl (~1850) → neue Mobilität, Massenmärkte. 3) IuK-Technologie (~1970-2000) → Globalisierung, Digitalisierung der Wirtschaft.</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F8: 3 Eigenschaften von Technologien, die für Adoption relevant sind, mit Beispiel. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">1) Kompatibilität – passt zu bestehenden Systemen (z.B. USB-Standard). 2) Relativer Vorteil – klar erkennbarer Nutzen (z.B. E-Auto: geringere Betriebskosten). 3) Komplexität – je einfacher verständlich/nutzbar, desto schneller die Adoption (z.B. Touchscreen-Bedienung).</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F9: Definieren Sie „Technologiefrüherkennung“. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">Systematische, frühzeitige Erfassung und Bewertung neuer technologischer Entwicklungen und Trends, um rechtzeitig strategische Entscheidungen treffen zu können, bevor der Wettbewerb reagiert.</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F10: Was bedeutet Technologieprognose? <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">Systematische Vorhersage der zukünftigen Entwicklung, Leistungsfähigkeit oder Verbreitung einer Technologie, basierend auf Daten/Modellen (z.B. leistungszyklusbezogenes Modell).</div></div>
+</div>
+
+<div class="impanel" id="impanel-strat">
+  <h2>Strategie & Umfeld (F11–20)</h2>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F11: Erläutern Sie das leistungszyklusbezogene Modell der Technologieprognose. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">Technologien durchlaufen einen S-Kurven-Verlauf: langsamer Start → starkes Wachstum der Leistungsfähigkeit → Abflachen bei Erreichen physikalischer/technischer Grenzen. Anhand der Position auf der S-Kurve lässt sich das zukünftige Entwicklungspotential abschätzen und der Zeitpunkt für den Wechsel zu einer neuen Technologie erkennen.</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F12: Technologieumfeld eines Automobilzulieferers (90% Umsatz mit Audi) beurteilen – 3 Kernbereiche. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">1) Technologieposition/Kernkompetenzen des eigenen Unternehmens (Know-how, Patente). 2) Kundenseitige Entwicklung – Technologiestrategie und Anforderungen von Audi/OEM. 3) Wettbewerbsumfeld – Technologien konkurrierender Zulieferer und Substitutionsgefahr (z.B. Wandel zu E-Mobilität).</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F13: Innovationsportfolio – skizzieren, Unternehmen eintragen, Handlungsstrategie. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">9-Felder- bzw. 16-Felder-Matrix: Achsen = Technologie-/Innovationsattraktivität (x) und Ressourcenstärke/Wettbewerbsposition (y), je gering/mittel/hoch. Felder ergeben Normstrategien: hoch/hoch = Investitionsfeld (investieren/ausbauen); niedrig/niedrig = Desinvestitionsfeld (aufgeben); gemischt = Selektionsfelder (selektiv fördern/prüfen). Bsp.: Tesla mit Batterietechnologie im Investitionsfeld (hohe Attraktivität, hohe Ressourcenstärke) → klare Empfehlung: weiter investieren/ausbauen.</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F14: 4 strategische Entscheidungsfelder im Innovationsmanagement. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">Innovationsgenerierung, Innovationsfinanzierung, Innovationsverwertung, Timingstrategien.</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F15: 4 konkrete Aufgabenfelder des Innovationsmanagements. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">1) Erfassung/Bewertung technologischer Entwicklungen (Analyse). 2) Bewertung technologischer Kompetenzen des Unternehmens (Analyse). 3) Auswahl innovativer Geschäftsfelder und Ressourcenzuordnung (Planung/Durchführung). 4) Schaffung innovationsfreundlicher Arbeitsbedingungen (Unternehmenskultur, Führungsstil, Anreize).</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F16: 3 grundsätzliche Einflussfaktoren auf Innovationsentstehung + je 2 Beispiele für 2 davon. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">1) Interne Faktoren (Unternehmenskultur, Ressourcen) – Bsp.: F&E-Budget, Führungsstil. 2) Externe Faktoren/Umfeld (Markt, Gesetzgebung) – Bsp.: Kundenanforderungen, Umweltauflagen. 3) Technologischer Fortschritt/Wissenschaft.</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F17: Grundlegende Innovationen von Apple, Amazon, Facebook, Google (3 auswählen). <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">Apple: Smartphone/Touchscreen-Ökosystem (iPhone). Amazon: E-Commerce-Logistik & Cloud Computing (AWS). Google: Suchalgorithmus/Werbe-basiertes Geschäftsmodell (AdWords).</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F18: 4 Voraussetzungen für externe Innovationsbeschaffung + Begründung einer davon. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">1) Fehlendes internes Know-how. 2) Zeitdruck (schneller Markteintritt nötig). 3) Kostenvorteil extern. 4) Fokussierung auf Kerngeschäft. Begründung (Zeitdruck): Eigene F&E-Entwicklung dauert oft zu lange, um first-mover-Vorteile zu sichern; Zukauf/Lizenzierung ermöglicht schnelleren Markteintritt.</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F19: 2 Argumente, warum Kenntnis der Entwicklung des Umweltbewusstseins wichtig für strategisches IM ist. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">1) Verändertes Umweltbewusstsein beeinflusst Kundennachfrage und Kaufverhalten (z.B. Nachfrage nach E-Autos statt Verbrenner). 2) Gesetzliche Vorschriften (z.B. Recyclingpflichten) entwickeln sich mit dem gesellschaftlichen Umweltbewusstsein – frühzeitige Kenntnis sichert Compliance und Wettbewerbsvorteile.</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F20: 2 Argumente, warum schnelle Marktdurchdringung für Innovationserfolg nötig ist. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">1) Sicherung von First-Mover-Vorteilen (Marktanteile, Kundenbindung) vor Wettbewerbern. 2) Schnellere Amortisation der hohen Entwicklungskosten, bevor Imitatoren/Nachahmer den Markt erreichen.</div></div>
+</div>
+
+<div class="impanel" id="impanel-verw">
+  <h2>Verwertung, Finanzierung & Recht (F21–31)</h2>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F21: 2 Maßnahmen zur Kostenreduktion im IM vor Markteinführung. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">1) Frühzeitige Kundeneinbindung (Co-Creation), um Fehlentwicklungen zu vermeiden. 2) Stage-Gate-Prozesse mit klaren Abbruchkriterien, um erfolglose Projekte frühzeitig zu stoppen und Ressourcen zu sparen.</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F22: Erläutern Sie das Konzept „Open Innovation“. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">Öffnung des Innovationsprozesses über die Unternehmensgrenzen hinaus: Einbindung externer Wissensquellen (Kunden, Lieferanten, Universitäten, Start-ups) sowohl beim Ideen-Input (Outside-in) als auch bei der Verwertung eigener, ungenutzter Technologien nach außen (Inside-out). Gegensatz: Closed Innovation (nur interne F&E).</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F23: 3 Vorteile einer zentralen gegenüber einer dezentralen F&E-Einheit. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">1) Bessere Nutzung von Größendegressionseffekten/Skaleneffekten. 2) Konzentration von Spezial-Know-how und Ressourcen (kritische Masse). 3) Einfachere Koordination und einheitliche strategische Ausrichtung der Innovationsaktivitäten.</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F24: Warum ist Kapitalbedarf im IM besonders problematisch (2 Argumente) + 1 Lösungsmaßnahme. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">1) Hohe Unsicherheit/Risiko des Erfolgs – anders als bei klassischen Investitionen ist der Return kaum kalkulierbar. 2) Lange Zeitspanne bis zu Rückflüssen (F&E, Markteinführung) bindet Kapital ohne kurzfristige Erträge. Lösung: Venture-Capital-Finanzierung mit stufenweiser Kapitalvergabe je nach Entwicklungsfortschritt.</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F25: Erläutern Sie in groben Zügen das Konzept „Venture Capital“. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">Eigenkapitalfinanzierung für junge, innovative, risikoreiche Unternehmen durch spezialisierte Investoren (VC-Gesellschaften), die im Gegenzug Unternehmensanteile erhalten. Erfolgt stufenweise (Seed-, Start-up-, Expansionsphase etc.), verbunden mit Beratung/Netzwerk des Investors; Exit meist über Verkauf oder Börsengang (IPO).</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F26: 3 Möglichkeiten der Verwertung von Innovationen. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">1) Verwertung im eigenen Unternehmen/eigenem Produkt. 2) Vergabe von Lizenzen an Dritte. 3) Verkauf der Patente bzw. Vergabe von Franchising.</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F27: Bedingungen, unter denen Markteintritt als Pionier erfolgversprechender ist als als Folger (3 kurz). <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">1) Hohe Patentierbarkeit/Schutzmöglichkeit der Innovation verhindert schnelles Nachahmen. 2) Hohe Wechselkosten für Kunden binden sie früh an den Pionier. 3) Schneller Aufbau von Skaleneffekten/Lernkurveneffekten sichert dauerhaften Kostenvorteil gegenüber Folgern.</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F28: Welche Schutzrechte gibt es für Innovationen? (3 nennen) <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">Patent, Gebrauchsmuster, Marke (weitere: Geschmacksmuster/Design, Urheberrecht/Copyright, Topographieschutz für Halbleiter).</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F29: Definieren Sie „Unternehmenskultur“. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">Gesamtheit gemeinsamer Werte, Normen, Grundannahmen und Verhaltensmuster der Mitarbeiter eines Unternehmens, die das Denken und Handeln prägen.</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F30: 3 Argumente, warum eine innovationsfreundliche Unternehmenskultur Schlüsselfaktor für IM-Erfolg ist. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">1) Fördert Risikobereitschaft und Fehlertoleranz, ohne die neue Ideen nicht entstehen. 2) Erleichtert offenen Informationsaustausch und funktionsübergreifende Zusammenarbeit. 3) Steigert Mitarbeitermotivation, sich aktiv mit eigenen Ideen einzubringen (Ideenmanagement).</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F31: 3 Einstellungen, die Innovationen blockieren + je 1 Gegenmaßnahme. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">1) Angst vor Fehlern/Scheitern → Fehlerkultur etablieren, Scheitern als Lernchance kommunizieren. 2) „Das haben wir immer so gemacht“-Denken → Diversität fördern, externe Impulse einholen. 3) Silodenken/mangelnder Austausch → funktionsübergreifende Teams und offene Kommunikationsstrukturen schaffen.</div></div>
+</div>
+
+<div class="impanel" id="impanel-umset">
+  <h2>Kultur, Umsetzung & Erfolg (F32–40)</h2>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F32: Schritte bei der Einführung eines Innovationsmanagementsystems (4, richtige Reihenfolge). <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">1) Analyse der Ausgangssituation (Ist-Zustand). 2) Festlegung von Zielen/Strategie. 3) Gestaltung der Struktur/Prozesse (Organisationshandbuch, Verantwortlichkeiten). 4) Umsetzung, Kontrolle und kontinuierliche Verbesserung.</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F33: Definieren Sie Innovationspolitik. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">Teil der Unternehmenspolitik, der grundsätzliche Leitlinien, Ziele und Werte für den Umgang mit Innovationen im Unternehmen festlegt – Rahmen für die konkrete Innovationsstrategie.</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F34: Nennen Sie ein Ziel im Rahmen eines Technologieprogramms. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">Sicherung/Ausbau der technologischen Wettbewerbsfähigkeit des Unternehmens durch gezielte Entwicklung bzw. Beschaffung definierter Schlüsseltechnologien.</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F35: 2 Schwierigkeiten beim Auditieren von Innovationsmanagementsystemen (kurz erläutert). <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">1) Fehlende verbindliche Normen/Standards (kein ISO-Pendant) → kein einheitlicher Bewertungsmaßstab. 2) Innovationserfolg ist schwer messbar/quantifizierbar, da Ergebnisse oft erst langfristig und indirekt sichtbar werden.</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F36: 2 Kennzahlen zur Messung des Innovationserfolgs. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">F&E-Quote (F&E-Ausgaben/Umsatz), Umsatzanteil mit neuen Produkten (jünger als X Jahre).</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F37: 2 wichtige Managementschnittstellen zum Innovationsmanagement + Begründung. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">1) Marketing – liefert Marktinformationen/Kundenbedürfnisse als Input für Innovationsideen und sichert erfolgreiche Markteinführung. 2) Qualitätsmanagement – stellt sicher, dass neue Produkte/Prozesse den Qualitätsstandards entsprechen und harmonisiert Dokumentation/Prozesse mit dem IM-System.</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F38: Warum erfolgt die Generierung von Innovationen immer in Projektform, auch bei bestehender F&E-Abteilung? (2 Argumente) <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">1) Innovationsvorhaben sind zeitlich befristet, einmalig und zielgerichtet – klassische Projektmerkmale, die eine dauerhafte Linienorganisation nicht abbildet. 2) Sie erfordern interdisziplinäre, funktionsübergreifende Zusammenarbeit (F&E, Marketing, Produktion), die sich am besten in flexiblen Projektteams statt starrer Abteilungsstrukturen organisieren lässt.</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F39: 4 Maßnahmen, wie ein Innovationsprojekt zu verbessern ist. <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">1) Klare Meilensteine/Stage-Gate-Prozess mit Entscheidungspunkten. 2) Frühzeitige Kundeneinbindung. 3) Interdisziplinäre Projektteams. 4) Regelmäßiges Controlling/Reporting zur frühzeitigen Risikoerkennung.</div></div>
+  <div class="qa-card"><div class="qa-q" onclick="tog(this)">F40: 4 Schlüsselfaktoren für ein erfolgreiches neues Produkt (mit Stichworten). <i class="ti ti-plus qa-icon"></i></div><div class="qa-a">1) Klarer Kundennutzen/USP – Produkt löst echtes Kundenproblem. 2) Marktkenntnis – frühzeitige, fundierte Marktanalyse. 3) Top-Management-Unterstützung – Ressourcen und strategischer Rückhalt. 4) Cross-funktionale Teamarbeit – enge Abstimmung zwischen F&E, Marketing, Produktion.</div></div>
+</div>
+
+<div class="impanel" id="impanel-klausur">
+  <h2>Musterklausur SS25 — Hochschule Merseburg (Prof. Dr. Justus Engelfried)</h2>
+  <p style="font-size:13px;color:var(--text-secondary);margin-bottom:12px">Prüfungsdauer: 30 Minuten · 25 Punkte · keine Hilfsmittel zugelassen</p>
+
+  <div class="exam-q">
+    <div class="exam-pts">6 Punkte</div>
+    <div class="exam-title">1. KI gilt als DIE Innovation der letzten beiden Jahre. Sie wird nicht nur positiv aufgenommen. Welche drei grundlegenden Argumente können gegen KI vorgebracht werden?</div>
+    <div class="exam-ans">
+      1. Hoher Energie-/Ressourcenverbrauch (Rechenzentren, Wasser) – Nachhaltigkeit fraglich.<br>
+      2. Gefahr von Scheininnovation/Hype ohne echten Nutzen in vielen Anwendungsfällen.<br>
+      3. Ethische/gesellschaftliche Risiken – Arbeitsplatzverlust, Bias, mangelnde Kontrollierbarkeit.<br>
+      <em>(Analog zu F3 „Kritikpunkte an Innovationen“, hier auf KI angewendet.)</em>
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="exam-pts">3 Punkte</div>
+    <div class="exam-title">2. Nennen Sie 3 konkrete Tätigkeiten in den Aufgabenfeldern „Erfassung von technologischen Entwicklungen und Bewertung dieser im Hinblick auf die Marktposition“ und „Bewertung der technologischen Kompetenzen des Unternehmens“.</div>
+    <div class="exam-ans">
+      1. Systematische Technologiefrüherkennung/-prognose (Trends, Patente, Publikationen scannen).<br>
+      2. Wettbewerberanalyse (technologiebezogene Absichten, Aktivitäten, Ergebnisse der Konkurrenz).<br>
+      3. Interne Kompetenzanalyse/-audit (eigene F&amp;E-Kapazitäten, Know-how, Patente im Vergleich zu externen Quellen).<br>
+      <em>(Vertiefung von F15.)</em>
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="exam-pts">3 Punkte</div>
+    <div class="exam-title">3. Ihre Forschungsabteilung ist leider nicht besonders innovativ. Nennen Sie 3 weitere Bedingungen, die Sie dazu bewegen könnten, diese Abteilung aufzulösen und Innovationen extern zu beschaffen.</div>
+    <div class="exam-ans">
+      1. Geringe eigene F&amp;E-Kapazitäten.<br>
+      2. Niedrige wettbewerbsstrategische Bedeutung der neuen Technologie.<br>
+      3. Hohes technologisches Risiko der eigenen Entwicklungsarbeit.<br>
+      <em>(Identisch mit F18 „Voraussetzungen für externe Innovationsbeschaffung“.)</em>
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="exam-pts">2 Punkte</div>
+    <div class="exam-title">4.1 Definieren Sie betriebliches Innovationsmanagement (synonym: technologiebezogenes Innovationsmanagement; häufig TIM).</div>
+    <div class="exam-ans">
+      Zielsetzung, Planung, Durchführung und Kontrolle von arbeitsteilig bewältigbaren Innovationsaktivitäten und -prozessen unter Bereitstellung, Durchsetzung und Verwertung neuer Technologien/Dienstleistungen; ein Veränderungsmanagement, das auf dem Auslösen von Instabilität beruht, die zu Veränderung und Innovation führt.<br>
+      <em>(Wortgleich mit F2 / Skript S.45.)</em>
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="exam-pts">1 Punkt</div>
+    <div class="exam-title">4.2 Liegt hier eine Unterscheidung zur „Unternehmensgründung“ vor? Ja oder Nein, mit kurzer Begründung.</div>
+    <div class="exam-ans">
+      <strong>Ja.</strong> Innovationsmanagement betrifft laufende Veränderungs-/Erneuerungsprozesse innerhalb eines bestehenden Unternehmens, während Unternehmensgründung den Aufbau einer komplett neuen Organisation bedeutet.
+    </div>
+  </div>
+
+  <div class="exam-q">
+    <div class="exam-pts">4 Punkte</div>
+    <div class="exam-title">5. Weshalb ist gerade für das Innovationsmanagement die Unternehmenskultur so wichtig? Begründen Sie mit 2 Argumenten.</div>
+    <div class="exam-ans">
+      1. Innovation bedeutet das Auslösen von Instabilität/Veränderung – nur eine offene, fehlertolerante Kultur ermöglicht es Mitarbeitern, neue Ideen einzubringen und Veränderung mitzutragen.<br>
+      2. Innovationsmanagement erfordert bereichsübergreifende Zusammenarbeit und offenen Informationsaustausch – eine kooperative Kultur fördert diesen notwendigen Wissenstransfer über Abteilungsgrenzen hinweg.<br>
+      <em>(Vgl. F30/F31.)</em>
+    </div>
+  </div>
+
+  <div class="alert-warn">
+    <strong>⚠ Wichtigste Erkenntnis:</strong> ~50–60% der Musterklausur deckt sich direkt mit den 40 Verständnisfragen (v.a. F2, F15, F18, F30/31). Rechnen Sie zusätzlich mit 1–2 „Transferfragen“, die ein aktuelles Thema (z.B. KI) mit einem bekannten Konzept (z.B. Kritikpunkte an Innovationen) verknüpfen.
+  </div>
+</div>
+
+<div class="impanel" id="impanel-flash">
+  <h2>Karteikarten — 40 Verständnisfragen</h2>
+  <div class="progress">
+    <span class="impill active" onclick="setTopicIM('all')">Alle</span>
+    <span class="impill" onclick="setTopicIM('grund')">Grundlagen</span>
+    <span class="impill" onclick="setTopicIM('strat')">Strategie</span>
+    <span class="impill" onclick="setTopicIM('verw')">Verwertung/Recht</span>
+    <span class="impill" onclick="setTopicIM('umset')">Kultur/Umsetzung</span>
+  </div>
+  <div class="flashcard" id="im-flashcard" onclick="flipCardIM()">
+    <div class="fc-front" id="im-fc-front"></div>
+    <div class="fc-back" id="im-fc-back"></div>
+    <div class="fc-hint" id="im-fc-hint"></div>
+  </div>
+  <div class="fc-nav">
+    <button class="fc-btn" onclick="prevCardIM()">← Zurück</button>
+    <span class="fc-counter" id="im-fc-counter"></span>
+    <button class="fc-btn" onclick="nextCardIM()">Weiter →</button>
+  </div>
+</div>
+
+<script>
+const cardsIM = [
+  {t:'grund',q:'F1: Definieren Sie „Innovation“.',a:'Zielgerichtete Durchsetzung von neuen technischen, wirtschaftlichen, organisatorischen und sozialen Kombinationen, die diskontinuierlich auftreten (nach SCHUMPETER). Beispiele: neues Produkt/Dienstleistung, neue Produktionsmethode, neuer Absatzmarkt, neue Rohstoffquelle, Neuorganisation.'},
+  {t:'grund',q:'F2: Grenzen Sie Innovationsmanagement von KVP ab.',a:'KVP (Kaizen) = kontinuierliche, kleine, schrittweise Verbesserungen im Tagesgeschäft. Innovationsmanagement = diskontinuierliche, oft radikale Veränderungen/Neuerungen, die Instabilität auslösen und dadurch Wandel ermöglichen. IM ist Veränderungsmanagement, KVP ist Optimierung des Bestehenden.'},
+  {t:'grund',q:'F3: Nennen und beschreiben Sie 2 generelle Kritikpunkte an Innovationen.',a:'1) Nicht jede Innovation ist nachhaltig – manche schaden Umwelt/Gesellschaft (Gegenteil: Exnovation nötig, z.B. Ausstieg aus Glühbirne, Atomkraft, Diesel). 2) Scheininnovationen – Pseudoverbesserungen ohne echten neuen Nutzen (z.B. nur neues Design) täuschen Fortschritt vor, ohne echten Mehrwert zu liefern.'},
+  {t:'grund',q:'F4: Nennen Sie 3 Charakteristika von Innovationsmanagement.',a:'1) Unterscheidet sich grundlegend von anderen Managementtätigkeiten. 2) Ist Veränderungsmanagement, das auf dem Auslösen von Instabilität beruht. 3) Verbindet Kulturwandel (Personal, Führung) mit Technologiewandel.'},
+  {t:'grund',q:'F5: Nennen Sie drei Einflüsse auf die Innovationsentstehung.',a:'Technologischer Wandel/Wissenschaft, Marktbedürfnisse/Kundenwünsche, gesetzliche/gesellschaftliche Rahmenbedingungen (z.B. Umweltvorschriften).'},
+  {t:'grund',q:'F6: Je eine technische, organisatorische und gesellschaftliche Innovation der letzten 30 Jahre.',a:'Technisch: Smartphone. Organisatorisch: Agile Arbeitsmethoden (Scrum). Gesellschaftlich: Homeoffice/mobiles Arbeiten als Normalität.'},
+  {t:'grund',q:'F7: 3 historische Beispiele technologiegetriebener Konjunkturwellen (Kondratieff) mit Wirkungen.',a:'1) Dampfmaschine (~1790) → Industrialisierung, Fabrikproduktion. 2) Eisenbahn/Stahl (~1850) → neue Mobilität, Massenmärkte. 3) IuK-Technologie (~1970-2000) → Globalisierung, Digitalisierung der Wirtschaft.'},
+  {t:'grund',q:'F8: 3 Eigenschaften von Technologien, die für Adoption relevant sind, mit Beispiel.',a:'1) Kompatibilität – passt zu bestehenden Systemen (z.B. USB-Standard). 2) Relativer Vorteil – klar erkennbarer Nutzen (z.B. E-Auto: geringere Betriebskosten). 3) Komplexität – je einfacher verständlich/nutzbar, desto schneller die Adoption (z.B. Touchscreen-Bedienung).'},
+  {t:'grund',q:'F9: Definieren Sie „Technologiefrüherkennung“.',a:'Systematische, frühzeitige Erfassung und Bewertung neuer technologischer Entwicklungen und Trends, um rechtzeitig strategische Entscheidungen treffen zu können, bevor der Wettbewerb reagiert.'},
+  {t:'grund',q:'F10: Was bedeutet Technologieprognose?',a:'Systematische Vorhersage der zukünftigen Entwicklung, Leistungsfähigkeit oder Verbreitung einer Technologie, basierend auf Daten/Modellen (z.B. leistungszyklusbezogenes Modell).'},
+  {t:'strat',q:'F11: Erläutern Sie das leistungszyklusbezogene Modell der Technologieprognose.',a:'Technologien durchlaufen einen S-Kurven-Verlauf: langsamer Start → starkes Wachstum der Leistungsfähigkeit → Abflachen bei Erreichen physikalischer/technischer Grenzen. Anhand der Position auf der S-Kurve lässt sich das zukünftige Entwicklungspotential abschätzen und der Zeitpunkt für den Wechsel zu einer neuen Technologie erkennen.'},
+  {t:'strat',q:'F12: Technologieumfeld eines Automobilzulieferers (90% Umsatz mit Audi) beurteilen – 3 Kernbereiche.',a:'1) Technologieposition/Kernkompetenzen des eigenen Unternehmens (Know-how, Patente). 2) Kundenseitige Entwicklung – Technologiestrategie und Anforderungen von Audi/OEM. 3) Wettbewerbsumfeld – Technologien konkurrierender Zulieferer und Substitutionsgefahr (z.B. Wandel zu E-Mobilität).'},
+  {t:'strat',q:'F13: Innovationsportfolio – skizzieren, Unternehmen eintragen, Handlungsstrategie.',a:'9-Felder- bzw. 16-Felder-Matrix: Achsen = Technologie-/Innovationsattraktivität (x) und Ressourcenstärke/Wettbewerbsposition (y), je gering/mittel/hoch. Felder ergeben Normstrategien: hoch/hoch = Investitionsfeld (investieren/ausbauen); niedrig/niedrig = Desinvestitionsfeld (aufgeben); gemischt = Selektionsfelder (selektiv fördern/prüfen). Bsp.: Tesla mit Batterietechnologie im Investitionsfeld (hohe Attraktivität, hohe Ressourcenstärke) → klare Empfehlung: weiter investieren/ausbauen.'},
+  {t:'strat',q:'F14: 4 strategische Entscheidungsfelder im Innovationsmanagement.',a:'Innovationsgenerierung, Innovationsfinanzierung, Innovationsverwertung, Timingstrategien.'},
+  {t:'strat',q:'F15: 4 konkrete Aufgabenfelder des Innovationsmanagements.',a:'1) Erfassung/Bewertung technologischer Entwicklungen (Analyse). 2) Bewertung technologischer Kompetenzen des Unternehmens (Analyse). 3) Auswahl innovativer Geschäftsfelder und Ressourcenzuordnung (Planung/Durchführung). 4) Schaffung innovationsfreundlicher Arbeitsbedingungen (Unternehmenskultur, Führungsstil, Anreize).'},
+  {t:'strat',q:'F16: 3 grundsätzliche Einflussfaktoren auf Innovationsentstehung + je 2 Beispiele für 2 davon.',a:'1) Interne Faktoren (Unternehmenskultur, Ressourcen) – Bsp.: F&E-Budget, Führungsstil. 2) Externe Faktoren/Umfeld (Markt, Gesetzgebung) – Bsp.: Kundenanforderungen, Umweltauflagen. 3) Technologischer Fortschritt/Wissenschaft.'},
+  {t:'strat',q:'F17: Grundlegende Innovationen von Apple, Amazon, Facebook, Google (3 auswählen).',a:'Apple: Smartphone/Touchscreen-Ökosystem (iPhone). Amazon: E-Commerce-Logistik & Cloud Computing (AWS). Google: Suchalgorithmus/Werbe-basiertes Geschäftsmodell (AdWords).'},
+  {t:'strat',q:'F18: 4 Voraussetzungen für externe Innovationsbeschaffung + Begründung einer davon.',a:'1) Fehlendes internes Know-how. 2) Zeitdruck (schneller Markteintritt nötig). 3) Kostenvorteil extern. 4) Fokussierung auf Kerngeschäft. Begründung (Zeitdruck): Eigene F&E-Entwicklung dauert oft zu lange, um first-mover-Vorteile zu sichern; Zukauf/Lizenzierung ermöglicht schnelleren Markteintritt.'},
+  {t:'strat',q:'F19: 2 Argumente, warum Kenntnis der Entwicklung des Umweltbewusstseins wichtig für strategisches IM ist.',a:'1) Verändertes Umweltbewusstsein beeinflusst Kundennachfrage und Kaufverhalten (z.B. Nachfrage nach E-Autos statt Verbrenner). 2) Gesetzliche Vorschriften (z.B. Recyclingpflichten) entwickeln sich mit dem gesellschaftlichen Umweltbewusstsein – frühzeitige Kenntnis sichert Compliance und Wettbewerbsvorteile.'},
+  {t:'strat',q:'F20: 2 Argumente, warum schnelle Marktdurchdringung für Innovationserfolg nötig ist.',a:'1) Sicherung von First-Mover-Vorteilen (Marktanteile, Kundenbindung) vor Wettbewerbern. 2) Schnellere Amortisation der hohen Entwicklungskosten, bevor Imitatoren/Nachahmer den Markt erreichen.'},
+  {t:'verw',q:'F21: 2 Maßnahmen zur Kostenreduktion im IM vor Markteinführung.',a:'1) Frühzeitige Kundeneinbindung (Co-Creation), um Fehlentwicklungen zu vermeiden. 2) Stage-Gate-Prozesse mit klaren Abbruchkriterien, um erfolglose Projekte frühzeitig zu stoppen und Ressourcen zu sparen.'},
+  {t:'verw',q:'F22: Erläutern Sie das Konzept „Open Innovation“.',a:'Öffnung des Innovationsprozesses über die Unternehmensgrenzen hinaus: Einbindung externer Wissensquellen (Kunden, Lieferanten, Universitäten, Start-ups) sowohl beim Ideen-Input (Outside-in) als auch bei der Verwertung eigener, ungenutzter Technologien nach außen (Inside-out). Gegensatz: Closed Innovation (nur interne F&E).'},
+  {t:'verw',q:'F23: 3 Vorteile einer zentralen gegenüber einer dezentralen F&E-Einheit.',a:'1) Bessere Nutzung von Größendegressionseffekten/Skaleneffekten. 2) Konzentration von Spezial-Know-how und Ressourcen (kritische Masse). 3) Einfachere Koordination und einheitliche strategische Ausrichtung der Innovationsaktivitäten.'},
+  {t:'verw',q:'F24: Warum ist Kapitalbedarf im IM besonders problematisch (2 Argumente) + 1 Lösungsmaßnahme.',a:'1) Hohe Unsicherheit/Risiko des Erfolgs – anders als bei klassischen Investitionen ist der Return kaum kalkulierbar. 2) Lange Zeitspanne bis zu Rückflüssen (F&E, Markteinführung) bindet Kapital ohne kurzfristige Erträge. Lösung: Venture-Capital-Finanzierung mit stufenweiser Kapitalvergabe je nach Entwicklungsfortschritt.'},
+  {t:'verw',q:'F25: Erläutern Sie in groben Zügen das Konzept „Venture Capital“.',a:'Eigenkapitalfinanzierung für junge, innovative, risikoreiche Unternehmen durch spezialisierte Investoren (VC-Gesellschaften), die im Gegenzug Unternehmensanteile erhalten. Erfolgt stufenweise (Seed-, Start-up-, Expansionsphase etc.), verbunden mit Beratung/Netzwerk des Investors; Exit meist über Verkauf oder Börsengang (IPO).'},
+  {t:'verw',q:'F26: 3 Möglichkeiten der Verwertung von Innovationen.',a:'1) Verwertung im eigenen Unternehmen/eigenem Produkt. 2) Vergabe von Lizenzen an Dritte. 3) Verkauf der Patente bzw. Vergabe von Franchising.'},
+  {t:'verw',q:'F27: Bedingungen, unter denen Markteintritt als Pionier erfolgversprechender ist als als Folger (3 kurz).',a:'1) Hohe Patentierbarkeit/Schutzmöglichkeit der Innovation verhindert schnelles Nachahmen. 2) Hohe Wechselkosten für Kunden binden sie früh an den Pionier. 3) Schneller Aufbau von Skaleneffekten/Lernkurveneffekten sichert dauerhaften Kostenvorteil gegenüber Folgern.'},
+  {t:'verw',q:'F28: Welche Schutzrechte gibt es für Innovationen? (3 nennen)',a:'Patent, Gebrauchsmuster, Marke (weitere: Geschmacksmuster/Design, Urheberrecht/Copyright, Topographieschutz für Halbleiter).'},
+  {t:'verw',q:'F29: Definieren Sie „Unternehmenskultur“.',a:'Gesamtheit gemeinsamer Werte, Normen, Grundannahmen und Verhaltensmuster der Mitarbeiter eines Unternehmens, die das Denken und Handeln prägen.'},
+  {t:'verw',q:'F30: 3 Argumente, warum eine innovationsfreundliche Unternehmenskultur Schlüsselfaktor für IM-Erfolg ist.',a:'1) Fördert Risikobereitschaft und Fehlertoleranz, ohne die neue Ideen nicht entstehen. 2) Erleichtert offenen Informationsaustausch und funktionsübergreifende Zusammenarbeit. 3) Steigert Mitarbeitermotivation, sich aktiv mit eigenen Ideen einzubringen (Ideenmanagement).'},
+  {t:'verw',q:'F31: 3 Einstellungen, die Innovationen blockieren + je 1 Gegenmaßnahme.',a:'1) Angst vor Fehlern/Scheitern → Fehlerkultur etablieren, Scheitern als Lernchance kommunizieren. 2) „Das haben wir immer so gemacht“-Denken → Diversität fördern, externe Impulse einholen. 3) Silodenken/mangelnder Austausch → funktionsübergreifende Teams und offene Kommunikationsstrukturen schaffen.'},
+  {t:'umset',q:'F32: Schritte bei der Einführung eines Innovationsmanagementsystems (4, richtige Reihenfolge).',a:'1) Analyse der Ausgangssituation (Ist-Zustand). 2) Festlegung von Zielen/Strategie. 3) Gestaltung der Struktur/Prozesse (Organisationshandbuch, Verantwortlichkeiten). 4) Umsetzung, Kontrolle und kontinuierliche Verbesserung.'},
+  {t:'umset',q:'F33: Definieren Sie Innovationspolitik.',a:'Teil der Unternehmenspolitik, der grundsätzliche Leitlinien, Ziele und Werte für den Umgang mit Innovationen im Unternehmen festlegt – Rahmen für die konkrete Innovationsstrategie.'},
+  {t:'umset',q:'F34: Nennen Sie ein Ziel im Rahmen eines Technologieprogramms.',a:'Sicherung/Ausbau der technologischen Wettbewerbsfähigkeit des Unternehmens durch gezielte Entwicklung bzw. Beschaffung definierter Schlüsseltechnologien.'},
+  {t:'umset',q:'F35: 2 Schwierigkeiten beim Auditieren von Innovationsmanagementsystemen (kurz erläutert).',a:'1) Fehlende verbindliche Normen/Standards (kein ISO-Pendant) → kein einheitlicher Bewertungsmaßstab. 2) Innovationserfolg ist schwer messbar/quantifizierbar, da Ergebnisse oft erst langfristig und indirekt sichtbar werden.'},
+  {t:'umset',q:'F36: 2 Kennzahlen zur Messung des Innovationserfolgs.',a:'F&E-Quote (F&E-Ausgaben/Umsatz), Umsatzanteil mit neuen Produkten (jünger als X Jahre).'},
+  {t:'umset',q:'F37: 2 wichtige Managementschnittstellen zum Innovationsmanagement + Begründung.',a:'1) Marketing – liefert Marktinformationen/Kundenbedürfnisse als Input für Innovationsideen und sichert erfolgreiche Markteinführung. 2) Qualitätsmanagement – stellt sicher, dass neue Produkte/Prozesse den Qualitätsstandards entsprechen und harmonisiert Dokumentation/Prozesse mit dem IM-System.'},
+  {t:'umset',q:'F38: Warum erfolgt die Generierung von Innovationen immer in Projektform, auch bei bestehender F&E-Abteilung? (2 Argumente)',a:'1) Innovationsvorhaben sind zeitlich befristet, einmalig und zielgerichtet – klassische Projektmerkmale, die eine dauerhafte Linienorganisation nicht abbildet. 2) Sie erfordern interdisziplinäre, funktionsübergreifende Zusammenarbeit (F&E, Marketing, Produktion), die sich am besten in flexiblen Projektteams statt starrer Abteilungsstrukturen organisieren lässt.'},
+  {t:'umset',q:'F39: 4 Maßnahmen, wie ein Innovationsprojekt zu verbessern ist.',a:'1) Klare Meilensteine/Stage-Gate-Prozess mit Entscheidungspunkten. 2) Frühzeitige Kundeneinbindung. 3) Interdisziplinäre Projektteams. 4) Regelmäßiges Controlling/Reporting zur frühzeitigen Risikoerkennung.'},
+  {t:'umset',q:'F40: 4 Schlüsselfaktoren für ein erfolgreiches neues Produkt (mit Stichworten).',a:'1) Klarer Kundennutzen/USP – Produkt löst echtes Kundenproblem. 2) Marktkenntnis – frühzeitige, fundierte Marktanalyse. 3) Top-Management-Unterstützung – Ressourcen und strategischer Rückhalt. 4) Cross-funktionale Teamarbeit – enge Abstimmung zwischen F&E, Marketing, Produktion.'},
+];
+let filteredIM = [...cardsIM];
+let idxIM = 0;
+let flippedIM = false;
+
+function switchTabIM(id){
+  document.querySelectorAll('#subject-im .imtab').forEach(t=>t.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll('#subject-im .impanel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('impanel-'+id).classList.add('active');
+}
+
+function setTopicIM(t){
+  document.querySelectorAll('#subject-im .impill').forEach(p=>p.classList.remove('active'));
+  event.target.classList.add('active');
+  filteredIM = t==='all' ? [...cardsIM] : cardsIM.filter(c=>c.t===t);
+  idxIM=0; flippedIM=false; renderCardIM();
+}
+
+function renderCardIM(){
+  if(!filteredIM.length){
+    document.getElementById('im-fc-front').textContent='Keine Karten in dieser Kategorie';
+    document.getElementById('im-fc-back').style.display='none';
+    document.getElementById('im-fc-hint').style.display='none';
+    return;
+  }
+  const c=filteredIM[idxIM];
+  document.getElementById('im-fc-front').textContent=c.q;
+  const b=document.getElementById('im-fc-back');
+  b.textContent=c.a; b.style.display=flippedIM?'block':'none';
+  document.getElementById('im-fc-hint').textContent=flippedIM?'antippen zum Umdrehen':'antippen für Antwort';
+  document.getElementById('im-fc-counter').textContent=(idxIM+1)+' / '+filteredIM.length;
+}
+
+function flipCardIM(){
+  flippedIM=!flippedIM;
+  const b=document.getElementById('im-fc-back');
+  b.style.display=flippedIM?'block':'none';
+  document.getElementById('im-fc-hint').textContent=flippedIM?'antippen zum Umdrehen':'antippen für Antwort';
+}
+
+function nextCardIM(){idxIM=(idxIM+1)%filteredIM.length;flippedIM=false;renderCardIM();}
+function prevCardIM(){idxIM=(idxIM-1+filteredIM.length)%filteredIM.length;flippedIM=false;renderCardIM();}
+
+renderCardIM();
+</script>
+
+</div><!-- /subject-im -->
+
+<script>
+function switchSubject(id){
+  document.querySelectorAll('.subject-tab').forEach(t=>t.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll('.subject').forEach(p=>p.classList.remove('active'));
+  document.getElementById('subject-'+id).classList.add('active');
+}
+</script>
+
 </div><!-- /app -->
 </body>
 </html>
