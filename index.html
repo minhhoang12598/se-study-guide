@@ -300,6 +300,7 @@ code{
 <div class="subject-nav" id="subject-nav">
   <button class="subject-tab active" onclick="switchSubject('se')">💻 Software Engineering</button>
   <button class="subject-tab" onclick="switchSubject('im')">📊 Innovationsmanagement</button>
+  <button class="subject-tab" onclick="switchSubject('qm')">✅ Qualitätsmanagement</button>
 </div>
 
 <div id="subject-se" class="subject active">
@@ -1368,6 +1369,95 @@ renderCardIM();
 </script>
 
 </div><!-- /subject-im -->
+
+<div id="subject-qm" class="subject">
+<div class="app-sub" style="margin:6px 0 12px">Qualitätsmanagement · 25 Karteikarten</div>
+
+<h2>Karteikarten — Qualitätsmanagement</h2>
+<div class="progress">
+  <span class="impill active" onclick="setTopicQM('all')">Alle</span>
+  <span class="impill" onclick="setTopicQM('grund')">Grundlagen (1.x)</span>
+  <span class="impill" onclick="setTopicQM('bach')">Bachelor (2.x)</span>
+</div>
+<div class="flashcard" id="qm-flashcard" onclick="flipCardQM()">
+  <div class="fc-front" id="qm-fc-front"></div>
+  <div class="fc-back" id="qm-fc-back"></div>
+  <div class="fc-hint" id="qm-fc-hint"></div>
+</div>
+<div class="fc-nav">
+  <button class="fc-btn" onclick="prevCardQM()">← Zurück</button>
+  <span class="fc-counter" id="qm-fc-counter"></span>
+  <button class="fc-btn" onclick="nextCardQM()">Weiter →</button>
+</div>
+
+<script>
+const cardsQM = [
+  {t:'grund',q:'1.1: 7M – Die Sieben Einflussfaktoren der Qualität sind?',a:'Mensch, Maschine, Material, Messbarkeit, Management, Methode, Mitwelt'},
+  {t:'grund',q:'1.2: Was ist unter Qualitätsmanagement zu verstehen?',a:'QM bezeichnet alle Maßnahmen zur Verbesserung von Produkt, Prozess und Leistung. Es sind aufeinander abgestimmte Tätigkeiten zum Leiten und Lenken einer Organisation bezüglich Qualität.'},
+  {t:'grund',q:'1.3: Warum sind bei der Durchführung von Audits geschlossene Fragen zu vermeiden?',a:'Weil man mehr ausführliche Information bei offenen Fragen bekommt.'},
+  {t:'grund',q:'1.4: Der „Six Sigma"-Ansatz steht als Synonym für welchen Sachverhalt?',a:'Null-Fehler als Ziel.'},
+  {t:'grund',q:'1.5: Durch welchen Sachverhalt ist ein konformes Produkt/eine konforme Dienstleistung gekennzeichnet?',a:'Alle erforderlichen Funktionen zu dem Produkt/der Dienstleistung werden erfüllt.'},
+  {t:'grund',q:'1.6: Welcher Handlungsbedarf ergibt sich beim Über- bzw. Unterschreiten von Eingriffsgrenzen auf Qualitätsregelkarten?',a:'Stopp des Prozesses und Ursachenforschung für nicht beherrschten Prozess.'},
+  {t:'grund',q:'1.7: Welche 2 Arten von Prozessgrenzen werden in einer Qualitätsregelkarte (QRK) eingetragen?',a:'Warngrenze und Eingriffsgrenze.'},
+  {t:'grund',q:'1.8: Die Qualitätslenkung kann in welche Bereiche unterteilt werden?',a:'In unmittelbare und mittelbare Qualitätslenkung.'},
+  {t:'grund',q:'1.9: Laut Deming – vereinfacht: Qualität und betriebswirtschaftliche Aspekte?',a:'Verbesserte Qualität führt zu wettbewerbsfähigen Preisen und zur Sicherung von Arbeitsplätzen.'},
+  {t:'grund',q:'1.10: Was ist unter dem Deming-Kreis zu verstehen?',a:'Kontinuierliches Verbesserungskonzept.'},
+  {t:'grund',q:'1.11: Welches Anliegen verfolgt das Ursache-Wirkungs-Diagramm (Ishikawa)?',a:'Kausalbeziehungen eines Problems ermitteln und graphisch darstellen.'},
+  {t:'grund',q:'1.12: Wovon wird die Kundenzufriedenheit unmittelbar beeinflusst?',a:'Vom Grad, in dem die Anforderungen erfüllt worden sind.'},
+  {t:'grund',q:'1.13: Was sind Zweck und Ziele des Qualitätsmanagements?',a:'Erfüllung der Anforderungen der interessierten Parteien.'},
+  {t:'grund',q:'1.14: Was ist ein Fehler im Kontext des Qualitätsmanagements?',a:'Nichterfüllung der Anforderungen.'},
+  {t:'grund',q:'1.15: Welches Verhältnis kennzeichnet das Pareto-Prinzip?',a:'80% der Probleme werden durch 20% der möglichen (bekannten) Ursachen hervorgerufen.'},
+  {t:'grund',q:'1.16: Wodurch kann die Qualität von Dienstleistungen maßgeblich beeinflusst sein?',a:'Termintreue/Erreichbarkeit des Dienstleisters.'},
+  {t:'grund',q:'1.17: Welcher Zusammenhang besteht zwischen Qualitätsmerkmalen und Prüfmerkmalen?',a:'Ein Qualitätsmerkmal ist in der Regel zugleich auch Prüfmerkmal – damit ein Mittel zur Beurteilung der Qualität einer Einheit.'},
+  {t:'grund',q:'1.18: Wie ist die Ausfallrate in der Nutzungsphase (Badewannenkurve)?',a:'In der Nutzungsphase ist die Ausfallrate konstant.'},
+  {t:'grund',q:'1.19: Human-Relations-Ansatz – soziale Bedürfnisse der Arbeitnehmer führen zu…',a:'Erhöhter Qualität und Produktivität.'},
+  {t:'grund',q:'1.20: Welche Aussage zu Auditarten ist korrekt?',a:'Systemaudits überprüfen regelmäßig die Konformität eines QM-Systems.'},
+  {t:'bach',q:'2.1: In welche übergeordneten Prozessarten werden Prozesse unterteilt?',a:'Führungsprozesse und Kernprozesse.'},
+  {t:'bach',q:'2.2: In welche Bestandteile lässt sich das Qualitätsmanagement gliedern?',a:'Qualitätsplanung, Qualitätslenkung, Qualitätssicherung.'},
+  {t:'bach',q:'2.3: OEG = 9, UEG = 2. Meßwerte: 8,7,7,6,6,5,5,4,4,3. Was empfehlen Sie?',a:'Der Prozess ist nicht unter statistischer Kontrolle, ein systematischer Fehler könnte vorliegen.\n\nDer Prozess muss untersucht werden, Ursachen müssen ermittelt werden, Maßnahmen müssen eingeleitet werden und die Fehlerbeseitigung muss dokumentiert werden.'},
+  {t:'bach',q:'2.4: 4 Phasen gesellschaftlicher Qualitätsziele – Phase 3 und 4?',a:'1. Versorgungsphase\n2. Wachstumsphase\n3. Globalisierungsphase\n4. Qualitätsphase'},
+  {t:'bach',q:'2.5: In welche Kategorien lassen sich Qualitätsanforderungen gliedern?',a:'Zuverlässigkeitsanforderungen, Sicherheitsanforderungen, Wirtschaftlichkeitsanforderungen, Ergonomieanforderungen.'}
+];
+let filteredQM = [...cardsQM];
+let idxQM = 0;
+let flippedQM = false;
+
+function setTopicQM(t){
+  document.querySelectorAll('#subject-qm .impill').forEach(p=>p.classList.remove('active'));
+  event.target.classList.add('active');
+  filteredQM = t==='all' ? [...cardsQM] : cardsQM.filter(c=>c.t===t);
+  idxQM=0; flippedQM=false; renderCardQM();
+}
+
+function renderCardQM(){
+  if(!filteredQM.length){
+    document.getElementById('qm-fc-front').textContent='Keine Karten in dieser Kategorie';
+    document.getElementById('qm-fc-back').style.display='none';
+    document.getElementById('qm-fc-hint').style.display='none';
+    return;
+  }
+  const c=filteredQM[idxQM];
+  document.getElementById('qm-fc-front').textContent=c.q;
+  const b=document.getElementById('qm-fc-back');
+  b.textContent=c.a; b.style.display=flippedQM?'block':'none';
+  document.getElementById('qm-fc-hint').style.display='block';
+  document.getElementById('qm-fc-hint').textContent=flippedQM?'antippen zum Umdrehen':'antippen für Antwort';
+  document.getElementById('qm-fc-counter').textContent=(idxQM+1)+' / '+filteredQM.length;
+}
+
+function flipCardQM(){
+  flippedQM=!flippedQM;
+  const b=document.getElementById('qm-fc-back');
+  b.style.display=flippedQM?'block':'none';
+  document.getElementById('qm-fc-hint').textContent=flippedQM?'antippen zum Umdrehen':'antippen für Antwort';
+}
+
+function nextCardQM(){idxQM=(idxQM+1)%filteredQM.length;flippedQM=false;renderCardQM();}
+function prevCardQM(){idxQM=(idxQM-1+filteredQM.length)%filteredQM.length;flippedQM=false;renderCardQM();}
+
+renderCardQM();
+</script>
+</div><!-- /subject-qm -->
 
 <script>
 function switchSubject(id){
